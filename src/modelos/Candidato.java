@@ -1,3 +1,5 @@
+package modelos;
+
 public class Candidato {
 
     public static int contador;
@@ -17,10 +19,6 @@ public class Candidato {
 
     public int obterIdContador() {
         return idContador;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String obterNome() {
