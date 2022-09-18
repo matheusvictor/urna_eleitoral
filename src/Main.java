@@ -1,12 +1,14 @@
+import modelos.Partido;
 import modelos.Candidato;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Candidato candidato_001 = new Candidato("Marco", 1111, "", "");
+        Partido partido = new Partido("Tabajara", "1122323");
+        Candidato candidato_001 = new Candidato("Marco", 1111, partido, "");
 
-        System.out.println(candidato_001.obterPartido());
+        System.out.println(candidato_001.getNome());
 
     }
 }

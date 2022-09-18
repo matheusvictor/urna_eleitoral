@@ -1,4 +1,4 @@
-package br.ufba.urna.modelos;
+package modelos;
 
 public class Partido {
 

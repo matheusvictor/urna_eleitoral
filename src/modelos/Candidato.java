@@ -2,15 +2,16 @@ package modelos;
 
 public class Candidato {
 
-    public static int contador;
-    private int idContador;
+    private static int contador;
+    private int idCandidato;
     private String nome;
     private int numero;
-    private String partido;
+    private Partido partido;
     private String cargo;
 
-    public Candidato(String nome, int numero, String partido, String cargo) {
-        this.idContador = contador;
+    public Candidato(String nome, int numero, Partido partido, String cargo) {
+        contador++;
+        this.idCandidato = contador;
         this.nome = nome;
         this.numero = numero;
         this.partido = partido;
@@ -18,22 +19,22 @@ public class Candidato {
     }
 
     public int obterIdContador() {
-        return idContador;
+        return idCandidato;
     }
 
-    public String obterNome() {
+    public String getNome() {
         return nome;
     }
 
-    public int obterNumero() {
+    public int getNumero() {
         return numero;
     }
 
-    public String obterCargo() {
+    public String getCargo() {
         return cargo;
     }
 
-    public String obterPartido() {
+    public Partido getPartido() {
         return partido;
     }
 }
