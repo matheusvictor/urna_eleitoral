@@ -25,3 +25,9 @@ hs_err_pid*
 # IntelliJ IDEA
 /out/
 /.idea/
+/urna_eleitoral.iml
+
+# Eclipse IDE
+/bin/
+.project
+.classpath
