@@ -1,14 +1,29 @@
-import modelos.Partido;
-import modelos.Candidato;
+import constantes.Digitos;
+import service.ValidadorDigitos;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Partido partido = new Partido("Tabajara", "1122323");
-        Candidato candidato_001 = new Candidato("Marco", 1111, partido, "");
 
-        System.out.println(candidato_001.getNome());
+        // System.out.println(candidato_001.ehMaiorDeIdade());
 
+        int numeroPartido = 125467;
+
+        // int quantidadeDigitos = ValidadorDigitos.verificarQuantidadeDigitos(numeroPartido);
+
+        int numeroPartidoValidado = ValidadorDigitos.validarNumeroPartido(numeroPartido);
+
+        System.out.println(numeroPartidoValidado);
+
+        int numeroSenador = (numeroPartidoValidado * 10) + 1;
+
+        int federal = (int) (numeroPartidoValidado * Math.pow(10, Digitos.PRESIDENTE - 2) + 0);
+
+        int deputadoEstadual =
+                (int) (numeroPartidoValidado * Math.pow(10, Digitos.DEPUTADO_ESTADUAL - Digitos.DIGITOS_PARTIDO) + 0);
+
+
+        System.out.println(deputadoEstadual);
     }
 }
