@@ -1,29 +1,25 @@
 package modelos;
 
-public class Candidato {
+public class Candidato extends Pessoa {
 
     private static int contador;
     private int idCandidato;
-    private String nome;
     private int numero;
-    private Partido partido;
     private String cargo;
+    private Partido partido;
 
-    public Candidato(String nome, int numero, Partido partido, String cargo) {
+    public Candidato(String nome, char sexo, int idade, String nacionalidade, int numero, Partido partido, String cargo) {
+        super(nome, sexo, idade, nacionalidade);
+
         contador++;
-        this.idCandidato = contador;
-        this.nome = nome;
+        this.cargo = cargo;
         this.numero = numero;
         this.partido = partido;
-        this.cargo = cargo;
+        this.idCandidato = contador;
     }
 
-    public int obterIdContador() {
+    public int getIdContador() {
         return idCandidato;
-    }
-
-    public String getNome() {
-        return nome;
     }
 
     public int getNumero() {
@@ -37,4 +33,5 @@ public class Candidato {
     public Partido getPartido() {
         return partido;
     }
+
 }
