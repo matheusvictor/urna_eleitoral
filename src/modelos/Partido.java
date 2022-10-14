@@ -2,33 +2,30 @@ package modelos;
 
 public class Partido {
 
-    private static int contador;
-    private int id;
+    private static int contador = 0;
+    private int idPartido;
 
-    private String nome;
-    private String numeroPartido = "";
+    private String nomePartido;
+    private int numeroPartido;
 
-    public Partido(String nome, String numeroPartido) {
+    public Partido(String nome, int numeroPartido) {
         contador++;
-        this.id = contador;
-        this.nome = nome;
 
-        if (numeroPartido.length() > 2) {
-            for (int i = 0; i < 2; i++) {
-                this.numeroPartido += numeroPartido.toCharArray()[i];
-            }
-        }
+        this.idPartido = contador;
+        this.nomePartido = nome;
+        this.numeroPartido = numeroPartido;
     }
 
-    public int getId() {
-        return id;
+    public int getIdPartido() {
+        return this.idPartido;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomePartido() {
+        return this.nomePartido;
     }
 
-    public String getNumeroPartido() {
-        return numeroPartido;
+    public int getNumeroPartido() {
+        return this.numeroPartido;
     }
+
 }
