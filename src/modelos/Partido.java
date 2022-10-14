@@ -2,7 +2,7 @@ package modelos;
 
 public class Partido {
 
-    private static int contador;
+    private static int contador = 0;
     private int idPartido;
 
     private String nomePartido;
@@ -10,12 +10,11 @@ public class Partido {
 
     public Partido(String nome, int numeroPartido) {
         contador++;
-        this.idPartido = contador;
 
+        this.idPartido = contador;
         this.nomePartido = nome;
         this.numeroPartido = numeroPartido;
     }
-
 
     public int getIdPartido() {
         return this.idPartido;
@@ -28,4 +27,5 @@ public class Partido {
     public int getNumeroPartido() {
         return this.numeroPartido;
     }
+
 }

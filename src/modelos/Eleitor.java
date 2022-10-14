@@ -23,5 +23,4 @@ public class Eleitor extends Pessoa {
         return idEleitor;
     }
 
-
 }
