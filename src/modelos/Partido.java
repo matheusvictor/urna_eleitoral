@@ -1,5 +1,7 @@
 package modelos;
 
+import java.util.HashSet;
+
 public class Partido {
 
     private static int contador = 0;
@@ -7,6 +9,8 @@ public class Partido {
 
     private String nomePartido;
     private int numeroPartido;
+    
+    private HashSet<Candidato> filiados; // A ordem não importa; acesso O(1).
 
     public Partido(String nome, int numeroPartido) {
         contador++;
