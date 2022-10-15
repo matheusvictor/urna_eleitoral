@@ -12,7 +12,7 @@ public class Urna {
     private HashSet<Candidato> vereadores;
     
     
-    public void inserirCandidato(Candidato c) {
+    public void inserirCandidato(HashSet<Candidato> c) {
     	
     }
     
