@@ -21,8 +21,23 @@ public class Urna {
     
      
      /*  
-       A cada voto, verificar quem possui mais votos, 
-      de modo que o voto em branco seja direcionado para o maior.
+	VOTO MAJORITÁRIO (aquele que atigir 50% dos votos + 1 leva no primeiro turno)
+
+	-prefeito
+	-governadores
+	-senadores
+	-presidente
+
+
+	VOTO PROPORCIONAL (ocupação de cadeiras de acordo com votos)
+	
+	Todos candidatos ingressam em maior ou menor número.
+	*Na prática, independente de o voto ser individual ou de legenda,
+	o voto é contabilizado por partido.
+
+	-vereadores
+	-deps ests
+	-deps feds
      
      */
     
