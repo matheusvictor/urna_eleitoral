@@ -5,13 +5,13 @@ public class Pessoa {
     private String nome;
     private char sexo;
     private int idade;
-    private String nacionalidade;
+    private boolean jaVotou;
 
-    public Pessoa(String nome, char sexo, int idade, String nacionalidade) {
+    public Pessoa(String nome, char sexo, int idade) {
         this.nome = nome;
         this.sexo = sexo;
         this.idade = idade;
-        this.nacionalidade = nacionalidade;
+        this.jaVotou = false;
     }
 
     public String getNome() {
@@ -26,9 +26,8 @@ public class Pessoa {
         return this.idade;
     }
 
-    public String getNacionalidade() {
-        return this.nacionalidade;
+    public boolean getJaVotou() {
+        return this.jaVotou;
     }
-
 
 }
