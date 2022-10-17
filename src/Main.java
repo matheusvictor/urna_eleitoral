@@ -24,7 +24,7 @@ public class Main {
                 (int) (numeroPartidoValidado * Math.pow(10, Digitos.DEPUTADO_ESTADUAL - Digitos.DIGITOS_PARTIDO) + 0);
         System.out.println(deputadoEstadual);
 
-        Eleitor e = new Eleitor("Fulano", 'M', 21);
+        Eleitor e = new Eleitor("Fulano", 'M', 21, "");
         System.out.println(e.getIdEleitor());
 
     }
