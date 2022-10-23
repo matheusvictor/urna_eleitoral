@@ -8,8 +8,8 @@ public class Candidato extends Pessoa {
     private String cargo;
     private Partido partido;
 
-    public Candidato(String nome, char sexo, int idade, int numero, Partido partido, String cargo) {
-        super(nome, sexo, idade);
+    public Candidato(String nome, char sexo, int idade, String estado, int numero, Partido partido, String cargo) {
+        super(nome, sexo, idade, estado);
 
         contador++;
         this.cargo = cargo;
