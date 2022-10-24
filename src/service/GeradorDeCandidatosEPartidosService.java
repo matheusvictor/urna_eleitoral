@@ -22,12 +22,16 @@ public class GeradorDeCandidatosEPartidosService {
         this.partidos = new HashSet<>();
 
         Partido partidoVelho = new Partido("Partido Velho", NumerosPartidos.VELHO);
-        Partido pLUA = new Partido("Partido Leão, Uva e Andorinha", NumerosPartidos.PLUA);
+        Partido pLUA = new Partido("Partido Louvar, Ungir e Agradecer", NumerosPartidos.PLUA);
         Partido partidoDosDesempregados = new Partido("Partido dos Desempregados", NumerosPartidos.PARTIDO_DOS_DESEMPREGADOS);
+        Partido partidoCapitalistaDoBrasil = new Partido("Partido Capitalista do Brasil", NumerosPartidos.PARTIDO_CAPITALISTA_DO_BRASIL);
+        Partido partidoConservador = new Partido("Partido Conservador", NumerosPartidos.PARTIDO_CONSERVADOR);
 
         this.partidos.add(pLUA);
         this.partidos.add(partidoVelho);
         this.partidos.add(partidoDosDesempregados);
+        this.partidos.add(partidoCapitalistaDoBrasil);
+        this.partidos.add(partidoConservador);
     }
 
     private void gerarCandidatos() {
