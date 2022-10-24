@@ -1,11 +1,11 @@
 package constantes;
 
-public enum CargosCandidatos {
+public final class CargosCandidatos {
 
-    SENADOR,
-    GOVERNADOR,
-    PRESIDENTE,
-    DEPUTADO_FEDERAL,
-    DEPUTADO_ESTADUAL
+    public static final String SENADOR = "Senador(a)";
+    public static final String GOVERNADOR = "Governador(a)";
+    public static final String PRESIDENTE = "Presidente";
+    public static final String DEPUTADO_FEDERAL = "Deputado(a) Federal";
+    public static final String DEPUTADO_ESTADUAL = "Deputado(a) Estadual";
 
 }
