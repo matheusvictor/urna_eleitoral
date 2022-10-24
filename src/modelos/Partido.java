@@ -12,7 +12,10 @@ public class Partido  {
     private String nomePartido;
     private int numeroPartido;
     private HashSet<Candidato> filiados; // A ordem não importa; acesso O(1).
-
+    
+    public void inserirCandidato(Candidato cand) {
+    	filiados.add(cand);
+    }
     public Partido(String nome, int numeroPartido) {
         contador++;
         this.idPartido = contador;
@@ -31,6 +34,10 @@ public class Partido  {
 
     public int getNumeroPartido() {
         return this.numeroPartido;
+    }
+    
+    public HashSet<Candidato> getFiliados() {
+    	return filiados;
     }
 
     public HashSet<Candidato> getFiliados() {
