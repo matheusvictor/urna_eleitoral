@@ -2,8 +2,10 @@ package constantes;
 
 public final class NumerosPartidos {
 
-    public static final int PLUA = 70;
-    public static final int VELHO = 80;
+    public static final int PLUA = 05;
+    public static final int VELHO = 03;
     public static final int PARTIDO_DOS_DESEMPREGADOS = 31;
+    public static final int PARTIDO_CAPITALISTA_DO_BRASIL = 56;
+    public static final int PARTIDO_CONSERVADOR = 22;
 
 }
