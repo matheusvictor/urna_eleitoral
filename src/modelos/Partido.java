@@ -11,7 +11,11 @@ public class Partido {
     private int numeroPartido;
     
     private HashSet<Candidato> filiados; // A ordem não importa; acesso O(1).
-
+    
+    public void inserirCandidato(Candidato cand) {
+    	filiados.add(cand);
+    }
+    git push --set-upstream origin abner
     public Partido(String nome, int numeroPartido) {
         contador++;
 
@@ -30,6 +34,10 @@ public class Partido {
 
     public int getNumeroPartido() {
         return this.numeroPartido;
+    }
+    
+    public HashSet<Candidato> getFiliados() {
+    	return filiados;
     }
 
 }
