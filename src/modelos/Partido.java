@@ -15,7 +15,6 @@ public class Partido {
     public void inserirCandidato(Candidato cand) {
     	filiados.add(cand);
     }
-    git push --set-upstream origin abner
     public Partido(String nome, int numeroPartido) {
         contador++;
 
