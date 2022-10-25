@@ -41,16 +41,22 @@ public class Urna {
         }
     }
 
-    public Candidato encontrarCandidato(int numeroCandidato) throws CandidatoNaoEncontradoException {
-        // TODO: implementação ainda incompleta
+    public void votarParaPresidente(int numero) {
+        // TODO: verificar como lidar com Exception
         try {
-            for (Candidato c : this.presidentes) {
-                if (c.getNumero() == numeroCandidato) {
-                    System.out.println("OK");
-                }
+            encontrarCandidatoAPresidente(numero);
+        } catch (CandidatoNaoEncontradoException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private Candidato encontrarCandidatoAPresidente(int numeroCandidato) throws CandidatoNaoEncontradoException {
+        // TODO: implementação ainda incompleta
+        for (Candidato c : this.presidentes) {
+            if (c.getNumero() == numeroCandidato) {
+                System.out.println("OK");
             }
-        } catch (Exception e) {
-            throw new CandidatoNaoEncontradoException("N achei");
         }
         return null;
     }
