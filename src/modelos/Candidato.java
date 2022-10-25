@@ -82,5 +82,13 @@ public class Candidato extends Eleitor {
     public int getNumeroVotos() {
         return numeroVotos;
     }
-    
+
+    public int getNumeroDeVotos() {
+        return this.numeroVotos;
+    }
+
+    public void setNumeroDeVotos() {
+        this.numeroVotos++;
+    }
+
 }
