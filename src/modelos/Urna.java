@@ -16,25 +16,30 @@ public class Urna {
 
     public Urna(GeradorDeCandidatosEPartidosService service) {
         HashSet<Candidato> candidatos = service.getCandidatos();
-        for (Candidato c : candidatos) {
-            if (c.getCargo().equals(CargosCandidatos.PRESIDENTE)) {
-                this.presidentes.add(c);
-            } else if (c.getCargo().equals(CargosCandidatos.SENADOR)) {
-                this.senadores.add(c);
-            } else if (c.getCargo().equals(CargosCandidatos.GOVERNADOR)) {
-                this.governadores.add(c);
-            } else if (c.getCargo().equals(CargosCandidatos.DEPUTADO_FEDERAL)) {
-                this.deputadosEstaduais.add(c);
-            } else {
-                this.deputadosFederais.add(c);
-            }
-        }
+        filtrarCandidatosPorCargo(candidatos);
     }
 
     private void filtrarCandidatosPorCargo(HashSet<Candidato> candidatos) {
-        // TODO: a filtragem realizada no construtor de Urna poderá acontecer aqui
+        for (Candidato c : candidatos) {
+            switch (c.getCargo()) {
+                case CargosCandidatos.PRESIDENTE:
+                    this.presidentes.add(c);
+                    break;
+                case CargosCandidatos.SENADOR:
+                    this.senadores.add(c);
+                    break;
+                case CargosCandidatos.GOVERNADOR:
+                    this.governadores.add(c);
+                    break;
+                case CargosCandidatos.DEPUTADO_FEDERAL:
+                    this.deputadosEstaduais.add(c);
+                    break;
+                default:
+                    this.deputadosFederais.add(c);
+                    break;
+            }
+        }
     }
-
 
     public Candidato encontrarCandidato(int numeroCandidato) throws CandidatoNaoEncontradoException {
         // TODO: implementação ainda incompleta
@@ -82,4 +87,6 @@ public class Urna {
 	-deps feds
      
      */
+
+
 }
