@@ -22,21 +22,11 @@ public class Urna {
     private void filtrarCandidatosPorCargo(HashSet<Candidato> candidatos) {
         for (Candidato c : candidatos) {
             switch (c.getCargo()) {
-                case CargosCandidatos.PRESIDENTE:
-                    this.presidentes.add(c);
-                    break;
-                case CargosCandidatos.SENADOR:
-                    this.senadores.add(c);
-                    break;
-                case CargosCandidatos.GOVERNADOR:
-                    this.governadores.add(c);
-                    break;
-                case CargosCandidatos.DEPUTADO_FEDERAL:
-                    this.deputadosEstaduais.add(c);
-                    break;
-                default:
-                    this.deputadosFederais.add(c);
-                    break;
+                case CargosCandidatos.PRESIDENTE -> this.presidentes.add(c);
+                case CargosCandidatos.SENADOR -> this.senadores.add(c);
+                case CargosCandidatos.GOVERNADOR -> this.governadores.add(c);
+                case CargosCandidatos.DEPUTADO_FEDERAL -> this.deputadosEstaduais.add(c);
+                default -> this.deputadosFederais.add(c);
             }
         }
     }
