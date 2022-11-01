@@ -5,7 +5,7 @@ import constantes.QuantidadeDigitosPorCargo;
 
 import java.util.Random;
 
-public class Candidato extends Eleitor {
+public class Candidato extends Eleitor implements Comparable<Candidato> {
 
     private static int contador = 0;
     private int idCandidato;
@@ -14,6 +14,7 @@ public class Candidato extends Eleitor {
     private Partido partido;
 
     private int numeroVotos;
+    
 
     public Candidato(String nome, char sexo, int idade, String estado, Partido partido, String cargo) {
 
@@ -82,5 +83,14 @@ public class Candidato extends Eleitor {
     public int getNumeroVotos() {
         return numeroVotos;
     }
-    
+    public void setVoto() {
+    	numeroVotos++;
+    }
+//**************************************************
+	@Override
+	public int compareTo(Candidato c) {
+		
+		return (c.getNumeroVotos() - getNumeroVotos());
+	}
+//*******************************************************
 }

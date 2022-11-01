@@ -1,7 +1,10 @@
 package modelos;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+
+import constantes.CargosCandidatos;
 
 import constantes.CargosCandidatos;
 
@@ -117,47 +120,26 @@ public class Urna {
     }
 //*****************************************************************
     
-    public LinkedList <Candidato> apurarVotos(HashSet<Candidato> c) {            //recebe uma lista de candidatos de mesmo cargo
+    public HashSet <Candidato> apurarVotos(HashSet<Candidato> c) {            //recebe uma lista de candidatos de mesmo cargo
     	
-    	LinkedList <Candidato> ranking = new LinkedList <Candidato>();        // manter ordem na inserção
+    	//LinkedList <Candidato> ranking = new LinkedList <Candidato>();        // manter ordem na inserção
     	
     	
-    	if(!c.isEmpty() && c.size()>1) {                             //se  lista tiver mais de 1 candidato
-    		
-    		while(c.size()>0) { //enquanto houver candidatos na lista recebida
-    			
-        		Candidato maisVotado = ((List<Candidato>) c).get(0);   //pega primeiro candidato e o assume como mais votado
-        		
-            	for(int i = 1; i<c.size(); i++ ) {
-            		
-            		if(((List<Candidato>) c).get(i).getNumeroVotos() > maisVotado.getNumeroVotos()) {  //compara com o proximo
-            			
-            			    maisVotado =   ((List<Candidato>) c).get(i);                                       
-            		}
-            	}
-            	ranking.add(maisVotado);
-            	c.remove(maisVotado);
-            	
-            	
-        	}    			
-    	}
-    	return ranking;
+    	if(c!=null)
+    		Collections.sort((List<Candidato>) c); //ordena por numero de votos maior para menor
+    	
+    	
 
-    	/*           
-    	O HashSet é o mais rápido de todos, este usa HashTable e seus elementos não são ordenados, 
-    	a complexidade desta estrutura é O(1), em outras palavras, não importa o quanto você adicione, 
-    	remova, retire, o tempo de execução sempre será o mesmo. E isso é extremamente crítico em processos 
-    	onde temos uma situação crítica com milhões de dados a serem inseridos em um Set. Por outro lado, 
-    	a garantia de continuidade na ordem dos elementos inseridos é zero, ou seja, esse tipo de estrutura é 
-    	indicada se você precisa apenas garantir a alta performance sem se importar com a ordem com que os 
-    	elementos estão ordenados. 
-    	 
-    	 */
-    	//ACEITANDO SUGESTÕES DE IMPLEMENTAÇÃO
+    	return c;
+
     	
     }
     
- //****************************************************************************************  
+ //****************************************************************************************   
+    
+    
+    //incluir candidatos:
+    //verificar cargo e inserir numa das coleções acima
     
      
      /*  
@@ -183,4 +165,3 @@ public class Urna {
     
 
 }
-
