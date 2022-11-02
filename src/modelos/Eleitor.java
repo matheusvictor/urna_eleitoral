@@ -1,5 +1,7 @@
 package modelos;
 
+import java.time.LocalDate;
+
 public class Eleitor extends Pessoa {
 
     private static int contador = 1;
@@ -7,8 +9,8 @@ public class Eleitor extends Pessoa {
     private boolean jaVotou;
 
 
-    public Eleitor(String nome, char sexo, int idade, String estado) {
-        super(nome, sexo, idade, estado);
+    public Eleitor(String nome, char sexo, LocalDate dataNascimento, String estado) {
+        super(nome, sexo, dataNascimento, estado);
         this.idEleitor = contador;
         this.jaVotou = false;
         contador++;
