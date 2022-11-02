@@ -1,93 +1,35 @@
 package modelos;
 
-import constantes.CargosCandidatos;
-import constantes.QuantidadeDigitosPorCargo;
+import interfaces.GeradorNumeroCandidato;
 
-import java.time.LocalDate;
-import java.util.Locale;
-import java.util.Random;
-
-public class Candidato extends Eleitor {
+public abstract class Candidato implements GeradorNumeroCandidato {
 
     private static int contador = 0;
+
     private int idCandidato;
+    private String nome;
+    private char sexo;
+    private String estado;
     private int numero;
     private String cargo;
     private Partido partido;
-
-    private String nome;
-    private char sexo;
-    private int idade;
-    private String estado;
-
     private int numeroVotos;
 
-    public Candidato(String nome, char sexo, LocalDate dataNascimento, String estado, Partido partido, String cargo) {
-
-        super(nome, sexo, dataNascimento, estado);
-
+    public Candidato(String nome, char sexo, String estado, Partido partido) {
         contador++;
-        this.cargo = cargo;
-        this.numeroVotos = 0;
-        this.partido = partido;
         this.idCandidato = contador;
+
+        this.numeroVotos = 0;
+
+        this.nome = nome;
+        this.sexo = sexo;
+        this.estado = estado;
+        this.partido = partido;
         this.numero = gerarNumeroCandidato();
     }
 
-    private int gerarNumeroCandidato() {
-
-        Random random = new Random();
-
-        switch (this.cargo) {
-            case CargosCandidatos.DEPUTADO_FEDERAL: {
-
-                int numeroBase = (int) (this.partido.getNumeroPartido() * Math.pow(10, QuantidadeDigitosPorCargo.DEPUTADO_FEDERAL - QuantidadeDigitosPorCargo.DIGITOS_PARTIDO) + 0);
-
-                int intervaloMinimo = 10;
-                int intervaloMaximo = 99;
-
-                return numeroBase + random.nextInt(intervaloMaximo - intervaloMinimo) + intervaloMinimo;
-            }
-            case CargosCandidatos.DEPUTADO_ESTADUAL: {
-                int numeroBase = (int) (this.partido.getNumeroPartido() * Math.pow(10, QuantidadeDigitosPorCargo.DEPUTADO_ESTADUAL - QuantidadeDigitosPorCargo.DIGITOS_PARTIDO) + 0);
-
-                int intervaloMinimo = 100;
-                int intervaloMaximo = 999;
-
-                return numeroBase + random.nextInt(intervaloMaximo - intervaloMinimo) + intervaloMinimo;
-            }
-            case CargosCandidatos.SENADOR: {
-                int numeroBase = (int) (this.partido.getNumeroPartido() * Math.pow(10, QuantidadeDigitosPorCargo.SENADOR - QuantidadeDigitosPorCargo.DIGITOS_PARTIDO) + 0);
-
-                int intervaloMinimo = 1;
-                int intervaloMaximo = 9;
-
-                return numeroBase + random.nextInt(intervaloMaximo - intervaloMinimo) + intervaloMinimo;
-
-            }
-            default:
-                return this.partido.getNumeroPartido();
-        }
-    }
-
-    public int getIdContador() {
+    public int idCandidato() {
         return idCandidato;
-    }
-
-    public int getNumero() {
-        return numero;
-    }
-
-    public String getCargo() {
-        return cargo;
-    }
-
-    public Partido getPartido() {
-        return partido;
-    }
-
-    public int getNumeroVotos() {
-        return numeroVotos;
     }
 
     public String getNome() {
@@ -98,20 +40,32 @@ public class Candidato extends Eleitor {
         return sexo;
     }
 
-    public int getIdade() {
-        return idade;
-    }
-
     public String getEstado() {
         return estado;
     }
-    
-    public int getNumeroDeVotos() {
-        return this.numeroVotos;
+
+    public int getNumero() {
+        return numero;
     }
 
-    public void setNumeroDeVotos() {
+    protected void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public Partido getPartido() {
+        return partido;
+    }
+
+    protected void receberVoto() {
         this.numeroVotos++;
+    }
+
+    public int getNumeroVotos() {
+        return numeroVotos;
     }
 
 }
