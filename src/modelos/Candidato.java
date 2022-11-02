@@ -3,6 +3,8 @@ package modelos;
 import constantes.CargosCandidatos;
 import constantes.QuantidadeDigitosPorCargo;
 
+import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Random;
 
 public class Candidato extends Eleitor {
@@ -15,9 +17,9 @@ public class Candidato extends Eleitor {
 
     private int numeroVotos;
 
-    public Candidato(String nome, char sexo, int idade, String estado, Partido partido, String cargo) {
+    public Candidato(String nome, char sexo, LocalDate dataNascimento, String estado, Partido partido, String cargo) {
 
-        super(nome, sexo, idade, estado);
+        super(nome, sexo, dataNascimento, estado);
 
         contador++;
         this.cargo = cargo;
