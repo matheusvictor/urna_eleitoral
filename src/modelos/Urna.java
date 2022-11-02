@@ -1,21 +1,64 @@
 package modelos;
+
+import constantes.CargosCandidatos;
+import excecoes.CandidatoNaoEncontradoException;
+import service.GeradorDeCandidatosEPartidosService;
+
 import java.util.HashSet;
 
 public class Urna {
-	
-    private HashSet<Candidato> presidentes;
-    private HashSet<Candidato> governadores;
-    private HashSet<Candidato> prefeitos;
-    private HashSet<Candidato> senadores;
-    private HashSet<Candidato> deputadosFederais;
-    private HashSet<Candidato> deputadosEstaduais;
-    private HashSet<Candidato> vereadores;
-    
-    
-    public void inserirCandidato(HashSet<Candidato> c) {
-    	
+
+    private HashSet<Candidato> senadores = new HashSet<>();
+    private HashSet<Candidato> presidentes = new HashSet<>();
+    private HashSet<Candidato> governadores = new HashSet<>();
+    private HashSet<Candidato> deputadosFederais = new HashSet<>();
+    private HashSet<Candidato> deputadosEstaduais = new HashSet<>();
+
+    public Urna(GeradorDeCandidatosEPartidosService service) {
+        HashSet<Candidato> candidatos = service.getCandidatos();
+        filtrarCandidatosPorCargo(candidatos);
     }
-    
+
+    private void filtrarCandidatosPorCargo(HashSet<Candidato> candidatos) {
+        for (Candidato c : candidatos) {
+            switch (c.getCargo()) {
+                case CargosCandidatos.PRESIDENTE -> this.presidentes.add(c);
+                case CargosCandidatos.SENADOR -> this.senadores.add(c);
+                case CargosCandidatos.GOVERNADOR -> this.governadores.add(c);
+                case CargosCandidatos.DEPUTADO_FEDERAL -> this.deputadosEstaduais.add(c);
+                default -> this.deputadosFederais.add(c);
+            }
+        }
+    }
+
+    public void votarParaPresidente(int numero) {
+        // TODO: verificar como lidar com Exception
+        try {
+            encontrarCandidatoAPresidente(numero);
+        } catch (CandidatoNaoEncontradoException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private Candidato encontrarCandidatoAPresidente(int numeroCandidato) throws CandidatoNaoEncontradoException {
+        // TODO: implementação ainda incompleta
+        for (Candidato c : this.presidentes) {
+            if (c.getNumero() == numeroCandidato) {
+                System.out.println("OK");
+            }
+        }
+        return null;
+    }
+
+    public void imprimirListaCandidatosAPresidente() {
+        if (this.presidentes != null) {
+            for (Candidato c : this.presidentes) {
+                System.out.println(c.getNome() + " -- " + c.getPartido().getNomePartido());
+            }
+        }
+    }
+
     //incluir candidatos:
     //verificar cargo e inserir numa das coleções acima
     
@@ -40,6 +83,6 @@ public class Urna {
 	-deps feds
      
      */
-    
+
 
 }
