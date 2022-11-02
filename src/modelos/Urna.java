@@ -4,12 +4,13 @@ import constantes.CargosCandidatos;
 import excecoes.CandidatoNaoEncontradoException;
 import service.GeradorDeCandidatosEPartidosService;
 
+import java.util.List;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 
 public class Urna {
 
+    private HashSet<Candidato> candidatos;
     private HashSet<Candidato> senadores = new HashSet<>();
     private HashSet<Candidato> presidentes = new HashSet<>();
     private HashSet<Candidato> governadores = new HashSet<>();
@@ -20,8 +21,8 @@ public class Urna {
     private int votosEmBranco;
 
     public Urna(GeradorDeCandidatosEPartidosService service) {
-        HashSet<Candidato> candidatos = service.getCandidatos();
-        filtrarCandidatosPorCargo(candidatos);
+        this.candidatos = service.getCandidatos();
+        filtrarCandidatosPorCargo();
 
         this.votosNulos = 0;
         this.votosEmBranco = 0;
@@ -43,8 +44,8 @@ public class Urna {
         return votosEmBranco;
     }
 
-    private void filtrarCandidatosPorCargo(HashSet<Candidato> candidatos) {
-        for (Candidato c : candidatos) {
+    private void filtrarCandidatosPorCargo() {
+        for (Candidato c : this.candidatos) {
             switch (c.getCargo()) {
                 case CargosCandidatos.PRESIDENTE -> this.presidentes.add(c);
                 case CargosCandidatos.SENADOR -> this.senadores.add(c);
@@ -75,9 +76,41 @@ public class Urna {
         return null;
     }
 
+    public void imprimirListaCandidatosASenador() {
+        if (this.senadores != null) {
+            for (Candidato c : this.senadores) {
+                System.out.println(c.getNome() + " -- " + c.getPartido().getNomePartido());
+            }
+        }
+    }
+
     public void imprimirListaCandidatosAPresidente() {
         if (this.presidentes != null) {
             for (Candidato c : this.presidentes) {
+                System.out.println(c.getNome() + " -- " + c.getPartido().getNomePartido());
+            }
+        }
+    }
+
+    public void imprimirListaCandidatosAGovernador() {
+        if (this.governadores != null) {
+            for (Candidato c : this.governadores) {
+                System.out.println(c.getNome() + " -- " + c.getPartido().getNomePartido());
+            }
+        }
+    }
+
+    public void imprimirListaCandidatosADepFederal() {
+        if (this.deputadosFederais != null) {
+            for (Candidato c : this.deputadosFederais) {
+                System.out.println(c.getNome() + " -- " + c.getPartido().getNomePartido());
+            }
+        }
+    }
+
+    public void imprimirListaCandidatosADepEstadual() {
+        if (this.deputadosEstaduais != null) {
+            for (Candidato c : this.deputadosEstaduais) {
                 System.out.println(c.getNome() + " -- " + c.getPartido().getNomePartido());
             }
         }
@@ -133,6 +166,5 @@ public class Urna {
         }
         return ranking;
     }
-
 
 }
