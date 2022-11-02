@@ -40,8 +40,4 @@ public class Partido  {
 //    	return filiados;
 //    }
 
-    public HashSet<Candidato> getFiliados() {
-        return this.filiados;
-    }
-
 }

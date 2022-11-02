@@ -12,7 +12,16 @@ public class GeradorDeCandidatosEPartidosService {
     private HashSet<Partido> partidos;
     private HashSet<Candidato> candidatos;
 
-    public GeradorDeCandidatosEPartidosService() {
+    private static GeradorDeCandidatosEPartidosService gerador;
+
+    public static GeradorDeCandidatosEPartidosService getInstance() {
+        if (gerador == null) {
+            gerador = new GeradorDeCandidatosEPartidosService();
+        }
+        return gerador;
+    }
+
+    private GeradorDeCandidatosEPartidosService() {
         gerarPartidos();
         gerarCandidatos();
     }
@@ -54,6 +63,7 @@ public class GeradorDeCandidatosEPartidosService {
                 this.candidatos.add(presidente);
 
                 Candidato dep_federal = new Candidato("Paula", 'F', 35, "PE", partido, CargosCandidatos.DEPUTADO_FEDERAL);
+                this.candidatos.add(dep_federal);
 
             }
 
