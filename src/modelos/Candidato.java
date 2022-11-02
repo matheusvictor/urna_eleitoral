@@ -1,5 +1,6 @@
 package modelos;
 
+import constantes.NomesEstados;
 import interfaces.GeradorNumeroCandidato;
 
 public abstract class Candidato implements GeradorNumeroCandidato {
@@ -9,13 +10,13 @@ public abstract class Candidato implements GeradorNumeroCandidato {
     private int idCandidato;
     private String nome;
     private char sexo;
-    private String estado;
+    private NomesEstados estado;
     private int numero;
     private String cargo;
     private Partido partido;
     private int numeroVotos;
 
-    public Candidato(String nome, char sexo, String estado, Partido partido) {
+    public Candidato(String nome, char sexo, NomesEstados estado, Partido partido) {
         contador++;
         this.idCandidato = contador;
 
@@ -41,7 +42,7 @@ public abstract class Candidato implements GeradorNumeroCandidato {
     }
 
     public String getEstado() {
-        return estado;
+        return estado.getNome();
     }
 
     public int getNumero() {

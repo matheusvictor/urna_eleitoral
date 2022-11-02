@@ -1,5 +1,6 @@
 package modelos;
 
+import constantes.NomesEstados;
 import constantes.CargosCandidatos;
 import constantes.QuantidadeDigitosPorCargo;
 
@@ -7,7 +8,7 @@ import java.util.Random;
 
 public class DeputadoFederal extends Candidato {
 
-    public DeputadoFederal(String nome, char sexo, String estado, Partido partido) {
+    public DeputadoFederal(String nome, char sexo, NomesEstados estado, Partido partido) {
         super(nome, sexo, estado, partido);
         this.setCargo(CargosCandidatos.DEPUTADO_FEDERAL);
     }
