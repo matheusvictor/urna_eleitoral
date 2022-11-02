@@ -1,9 +1,11 @@
 package service;
 
-import constantes.CargosCandidatos;
+import constantes.NomesEstados;
 import constantes.NumerosPartidos;
 import modelos.Candidato;
+import modelos.DeputadoFederal;
 import modelos.Partido;
+import modelos.Presidente;
 
 import java.util.HashSet;
 
@@ -51,22 +53,21 @@ public class GeradorDeCandidatosEPartidosService {
 
             if (partido.getNumeroPartido() == NumerosPartidos.PARTIDO_DOS_DESEMPREGADOS) {
 
-                Candidato presidente = new Candidato("Polvo", 'M', 60, "PE", partido, CargosCandidatos.PRESIDENTE);
+                Candidato presidente = new Presidente("Polvo", 'M', NomesEstados.TOCANTINS, partido);
                 this.candidatos.add(presidente);
 
-                Candidato dep_federal = new Candidato("Tiririca", 'M', 55, "PE", partido, CargosCandidatos.DEPUTADO_FEDERAL);
+                Candidato dep_federal = new DeputadoFederal("Tiririca", 'M', NomesEstados.TOCANTINS, partido);
                 this.candidatos.add(dep_federal);
 
             } else if (partido.getNumeroPartido() == NumerosPartidos.VELHO) {
 
-                Candidato presidente = new Candidato("Tonhão da Esfirra", 'M', 60, "PE", partido, CargosCandidatos.PRESIDENTE);
+                Candidato presidente = new DeputadoFederal("Tonhão da Esfirra", 'M', NomesEstados.PERNAMBUCO, partido);
                 this.candidatos.add(presidente);
 
-                Candidato dep_federal = new Candidato("Paula", 'F', 35, "PE", partido, CargosCandidatos.DEPUTADO_FEDERAL);
+                Candidato dep_federal = new DeputadoFederal("Paula", 'F', NomesEstados.ACRE, partido);
                 this.candidatos.add(dep_federal);
 
             }
-
         }
 
     }
