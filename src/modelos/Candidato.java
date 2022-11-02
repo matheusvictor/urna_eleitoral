@@ -15,6 +15,11 @@ public class Candidato extends Eleitor {
     private String cargo;
     private Partido partido;
 
+    private String nome;
+    private char sexo;
+    private int idade;
+    private String estado;
+
     private int numeroVotos;
 
     public Candidato(String nome, char sexo, LocalDate dataNascimento, String estado, Partido partido, String cargo) {
@@ -85,6 +90,22 @@ public class Candidato extends Eleitor {
         return numeroVotos;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public char getSexo() {
+        return sexo;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+    
     public int getNumeroDeVotos() {
         return this.numeroVotos;
     }
