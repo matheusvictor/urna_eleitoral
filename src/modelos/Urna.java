@@ -57,23 +57,26 @@ public class Urna {
     }
 
     public void votarParaPresidente(int numero) {
-        // TODO: verificar como lidar com Exception
+
         try {
-            encontrarCandidatoAPresidente(numero);
+            Candidato presidente = encontrarCandidatoAPresidente(numero);
+            presidente.receberVoto();
+            System.out.println(presidente.getNome() + " -- " + presidente.getNumeroVotos());
         } catch (CandidatoNaoEncontradoException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
 
     }
 
     private Candidato encontrarCandidatoAPresidente(int numeroCandidato) throws CandidatoNaoEncontradoException {
-        // TODO: implementação ainda incompleta
-        for (Candidato c : this.presidentes) {
-            if (c.getNumero() == numeroCandidato) {
-                System.out.println("OK");
-            }
+        Candidato presidente = this.presidentes.stream()
+                .filter(p -> p.getNumero() == numeroCandidato).findFirst().orElse(null);
+
+        if (presidente == null) {
+            throw new CandidatoNaoEncontradoException();
         }
-        return null;
+
+        return presidente;
     }
 
     public void imprimirListaCandidatosASenador() {

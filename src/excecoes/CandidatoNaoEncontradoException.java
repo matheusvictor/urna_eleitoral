@@ -2,7 +2,7 @@ package excecoes;
 
 public class CandidatoNaoEncontradoException extends Exception {
 
-    public CandidatoNaoEncontradoException(String mensagem) {
+    public CandidatoNaoEncontradoException() {
         super("Candidato não encontrado!");
     }
 
