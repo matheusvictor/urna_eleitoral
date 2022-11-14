@@ -51,14 +51,18 @@ public class Main {
                             String pararVotacao;
                             boolean votacaoEmAndamento = true;
                             do {
-                                System.out.println("Digite o número do candidato a senador");
+                                System.out.print("Digite o número do candidato a senador");
                                 int numeroSenador = scanner.nextInt();
-                                System.out.println("Digite o número do candidato a dep. estadual");
+
+                                System.out.print("Digite o número do candidato a dep. estadual: ");
                                 int numeroEstadual = scanner.nextInt();
-                                System.out.println("Digite o número do candidato a dep. federal");
+
+                                System.out.print("Digite o número do candidato a dep. federal: ");
                                 int numeroFederal = scanner.nextInt();
-                                System.out.println("Digite o número do candidato a presidente");
+
+                                System.out.print("Digite o número do candidato a presidente: ");
                                 int numeroPresidente = scanner.nextInt();
+                                urnaEleitoral.votarParaPresidente(numeroPresidente);
 
                                 System.out.print("Continuar [s/N]: ");
                                 pararVotacao = scanner.next().toUpperCase();
