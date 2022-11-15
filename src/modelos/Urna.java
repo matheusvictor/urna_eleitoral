@@ -1,31 +1,33 @@
 package modelos;
 
-import constantes.CargosCandidatos;
 import excecoes.CandidatoNaoEncontradoException;
 import service.GeradorDeCandidatosEPartidosService;
 
-import java.util.List;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Urna {
 
-    private HashSet<Candidato> candidatos;
-    private HashSet<Candidato> senadores = new HashSet<>();
-    private HashSet<Candidato> presidentes = new HashSet<>();
-    private HashSet<Candidato> governadores = new HashSet<>();
-    private HashSet<Candidato> deputadosFederais = new HashSet<>();
-    private HashSet<Candidato> deputadosEstaduais = new HashSet<>();
+    private HashSet<Candidato> candidatos = new HashSet<>();
+    private HashSet<Senador> senadores = new HashSet<>();
+    private HashSet<Presidente> presidentes = new HashSet<>();
+    private HashSet<Governador> governadores = new HashSet<>();
+    private HashSet<DeputadoFederal> deputadosFederais = new HashSet<>();
+    private HashSet<DeputadoEstadual> deputadosEstaduais = new HashSet<>();
+    private int votosNulos = 0;
+    private int votosValidos = 0;
+    private int votosEmBranco = 0;
 
-    private int votosNulos;
-    private int votosEmBranco;
+    public String getZeresima() {
+        return "Votos válidos: " + this.votosValidos + "\n" +
+                "Votos nulos: " + this.votosNulos + "\n" +
+                "Votos em branco: " + this.votosEmBranco;
+    }
 
-    public Urna(GeradorDeCandidatosEPartidosService service) {
-        this.candidatos = service.getCandidatos();
+    public void habilitarUrnaParaVotacao(GeradorDeCandidatosEPartidosService service) {
+        this.setCandidatos(service.getCandidatos());
         filtrarCandidatosPorCargo();
-
-        this.votosNulos = 0;
-        this.votosEmBranco = 0;
     }
 
     public void incrementarVotosNulos() {
@@ -45,38 +47,50 @@ public class Urna {
     }
 
     private void filtrarCandidatosPorCargo() {
-        for (Candidato c : this.candidatos) {
-            switch (c.getCargo()) {
-                case CargosCandidatos.PRESIDENTE -> this.presidentes.add(c);
-                case CargosCandidatos.SENADOR -> this.senadores.add(c);
-                case CargosCandidatos.GOVERNADOR -> this.governadores.add(c);
-                case CargosCandidatos.DEPUTADO_FEDERAL -> this.deputadosEstaduais.add(c);
-                default -> this.deputadosFederais.add(c);
+        for (Candidato candidato : this.candidatos) {
+            if (candidato instanceof Presidente) {
+                this.presidentes.add((Presidente) candidato);
+            } else if (candidato instanceof Senador) {
+                this.senadores.add((Senador) candidato);
+            } else if (candidato instanceof DeputadoFederal) {
+                this.deputadosFederais.add((DeputadoFederal) candidato);
+            } else if (candidato instanceof DeputadoEstadual) {
+                this.deputadosEstaduais.add((DeputadoEstadual) candidato);
+            } else {
+                this.governadores.add((Governador) candidato);
             }
         }
     }
 
-    public void votarParaPresidente(int numero) {
+    private Candidato encontrarCandidato(int numeroCandidato, String cargo) throws CandidatoNaoEncontradoException {
+        Candidato candidato = this.candidatos.stream()
+                .filter(p -> p.getNumero() == numeroCandidato && p.getCargo().equals(cargo))
+                .findFirst()
+                .orElse(null);
 
-        try {
-            Candidato presidente = encontrarCandidatoAPresidente(numero);
-            presidente.receberVoto();
-            System.out.println(presidente.getNome() + " -- " + presidente.getNumeroVotos());
-        } catch (CandidatoNaoEncontradoException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-    private Candidato encontrarCandidatoAPresidente(int numeroCandidato) throws CandidatoNaoEncontradoException {
-        Candidato presidente = this.presidentes.stream()
-                .filter(p -> p.getNumero() == numeroCandidato).findFirst().orElse(null);
-
-        if (presidente == null) {
+        if (candidato == null) {
+            incrementarVotosNulos();
+            System.out.println(getVotosNulos());
             throw new CandidatoNaoEncontradoException();
         }
 
-        return presidente;
+        return candidato;
+    }
+
+    public void addVotoAoCandidato(int numero, String cargo) {
+        Candidato candidato;
+
+        try {
+            candidato = encontrarCandidato(numero, cargo);
+            candidato.receberVoto();
+            imprimirInformacoesCandidato(candidato);
+        } catch (CandidatoNaoEncontradoException | NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void imprimirInformacoesCandidato(Candidato candidato) {
+        System.out.println(candidato);
     }
 
     public void imprimirListaCandidatosASenador() {
@@ -89,8 +103,8 @@ public class Urna {
 
     public void imprimirListaCandidatosAPresidente() {
         if (this.presidentes != null) {
-            for (Candidato c : this.presidentes) {
-                System.out.println(c.getNome() + " -- " + c.getPartido().getNomePartido());
+            for (Presidente p : this.presidentes) {
+                System.out.println(p.getDetalhesCandidato());
             }
         }
     }
@@ -119,6 +133,10 @@ public class Urna {
         }
     }
 
+    public HashSet<Presidente> getPresidentes() {
+        return presidentes;
+    }
+
     // implementações de Marcos:
 
     public void votar(HashSet<Candidato> cd, int numeroInserido) { //uma rotina anterior devera tratar o numero inserido
@@ -144,6 +162,10 @@ public class Urna {
             }
         }
 
+    }
+
+    public void setCandidatos(HashSet<Candidato> candidatos) {
+        this.candidatos = candidatos;
     }
 
     public LinkedList<Candidato> apurarVotos(HashSet<Candidato> c) {            //recebe uma lista de candidatos de mesmo cargo
