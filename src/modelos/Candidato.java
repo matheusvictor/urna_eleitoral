@@ -7,14 +7,14 @@ public abstract class Candidato implements GeradorNumeroCandidato {
 
     private static int contador = 0;
 
-    private int idCandidato;
-    private String nome;
-    private char sexo;
-    private NomesEstados estado;
-    private int numero;
-    private String cargo;
-    private Partido partido;
-    private int numeroVotos;
+    protected int idCandidato;
+    protected String nome;
+    protected char sexo;
+    protected NomesEstados estado;
+    protected int numero;
+    protected String cargo;
+    protected Partido partido;
+    protected int numeroVotos;
 
     public Candidato(String nome, char sexo, NomesEstados estado, Partido partido) {
         contador++;
@@ -62,11 +62,25 @@ public abstract class Candidato implements GeradorNumeroCandidato {
     }
 
     protected void receberVoto() {
-        this.numeroVotos++;
+        this.numeroVotos += 1;
     }
 
     public int getNumeroVotos() {
         return numeroVotos;
+    }
+
+    public String getDetalhesCandidato() {
+        return this.nome + " :: " + this.partido.getSiglaPartido() + " :: " + this.cargo;
+    }
+
+    @Override
+    public String toString() {
+        return "Candidato: " + nome + "\n" +
+                "Estado: " + estado + "\n" +
+                "Número: " + numero + "\n" +
+                "Cargo: " + cargo + "\n" +
+                "Partido: " + partido.getNomePartido() + "\n" +
+                "Número de votos: " + numeroVotos;
     }
 
 }

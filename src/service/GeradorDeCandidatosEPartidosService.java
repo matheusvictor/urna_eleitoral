@@ -1,5 +1,6 @@
 package service;
 
+import constantes.NomesESiglasPartidos;
 import constantes.NomesEstados;
 import constantes.NumerosPartidos;
 import modelos.Candidato;
@@ -32,11 +33,11 @@ public class GeradorDeCandidatosEPartidosService {
 
         this.partidos = new HashSet<>();
 
-        Partido partidoVelho = new Partido("Partido Velho", NumerosPartidos.VELHO);
-        Partido pLUA = new Partido("Partido Louvar, Ungir e Agradecer", NumerosPartidos.PLUA);
-        Partido partidoDosDesempregados = new Partido("Partido dos Desempregados", NumerosPartidos.PARTIDO_DOS_DESEMPREGADOS);
-        Partido partidoCapitalistaDoBrasil = new Partido("Partido Capitalista do Brasil", NumerosPartidos.PARTIDO_CAPITALISTA_DO_BRASIL);
-        Partido partidoConservador = new Partido("Partido Conservador", NumerosPartidos.PARTIDO_CONSERVADOR);
+        Partido partidoVelho = new Partido(NomesESiglasPartidos.PARTIDO_VELHO, NumerosPartidos.VELHO);
+        Partido pLUA = new Partido(NomesESiglasPartidos.PARTIDO_LOUVAR_UNGIR_AGRADECER, NumerosPartidos.PLUA);
+        Partido partidoDosDesempregados = new Partido(NomesESiglasPartidos.PARTIDO_DOS_DESEMPREGADOS, NumerosPartidos.PARTIDO_DOS_DESEMPREGADOS);
+        Partido partidoCapitalistaDoBrasil = new Partido(NomesESiglasPartidos.PARTIDO_CAPITALISTA_DO_BRASIL, NumerosPartidos.PARTIDO_CAPITALISTA_DO_BRASIL);
+        Partido partidoConservador = new Partido(NomesESiglasPartidos.PARTIDO_CONSERVADOR, NumerosPartidos.PARTIDO_CONSERVADOR);
 
         this.partidos.add(pLUA);
         this.partidos.add(partidoVelho);
@@ -61,7 +62,7 @@ public class GeradorDeCandidatosEPartidosService {
 
             } else if (partido.getNumeroPartido() == NumerosPartidos.VELHO) {
 
-                Candidato presidente = new DeputadoFederal("Tonhão da Esfirra", 'M', NomesEstados.PERNAMBUCO, partido);
+                Candidato presidente = new Presidente("Tonhão da Esfirra", 'M', NomesEstados.PERNAMBUCO, partido);
                 this.candidatos.add(presidente);
 
                 Candidato dep_federal = new DeputadoFederal("Paula", 'F', NomesEstados.ACRE, partido);
