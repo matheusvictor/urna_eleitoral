@@ -60,38 +60,29 @@ public class Urna {
         }
     }
 
-    private Candidato encontrarCandidato(int numeroCandidato, String cargo) throws CandidatoNaoEncontradoException {
+    public Candidato encontrarCandidato(int numeroCandidato, String cargo) throws CandidatoNaoEncontradoException {
         Candidato candidato = this.candidatos.stream()
                 .filter(p -> p.getNumero() == numeroCandidato && p.getCargo().equals(cargo))
                 .findFirst()
                 .orElse(null);
 
         if (candidato == null) {
-            incrementarVotosNulos();
-            System.out.println(getVotosNulos());
+//            incrementarVotosNulos();
             throw new CandidatoNaoEncontradoException();
         }
 
         return candidato;
     }
 
-    public void addVotoAoCandidato(int numero, String cargo, Scanner sc) {
-        Candidato candidato;
-        String confirm = "N";
-        try {
-            while(!confirm.startsWith("S")){
-                candidato = encontrarCandidato(numero, cargo);
-                System.out.print("Confirma que deseja votar no candidato " + candidato.getNome() + "? [S/n]: ");
-                confirm = sc.next().toUpperCase();
-                if(confirm.startsWith("S")){ //se sim, recebe voto
-                    candidato.receberVoto();
-                    imprimirInformacoesCandidato(candidato);
-                }else{ //se não, reinforma número
-                    System.out.print("digite novamente o número do candidato: ");
-                    numero = sc.nextInt();
-                }
+    public void addVotoAoCandidato2(Candidato candidato) {
+        candidato.receberVoto();
+    }
 
-            }
+    public void addVotoAoCandidato(int numero, String cargo) {
+        Candidato candidato;
+        try {
+            candidato = encontrarCandidato(numero, cargo);
+            candidato.receberVoto();
         } catch (CandidatoNaoEncontradoException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -136,7 +127,7 @@ public class Urna {
     public void imprimirListaCandidatosADepEstadual() {
         if (this.deputadosEstaduais != null) {
             for (Candidato c : this.deputadosEstaduais) {
-                System.out.println(c.getNome() + " -- " + c.getNumero() +  " -- " + c.getPartido().getNomePartido());
+                System.out.println(c.getNome() + " -- " + c.getNumero() + " -- " + c.getPartido().getNomePartido());
             }
         }
     }
@@ -200,20 +191,20 @@ public class Urna {
         return ranking;
     }
 
-    public Presidente apuracaoPresidente(int maxCadeiras){
+    public Presidente apuracaoPresidente(int maxCadeiras) {
         Presidente presidenteEleito = null;
 
         int numVotos[] = new int[presidentes.size()];
         List<Candidato> listCandidatos = new ArrayList<Candidato>(presidentes);
-        for (int i=0; i<presidentes.size(); i++){
+        for (int i = 0; i < presidentes.size(); i++) {
             numVotos[i] = listCandidatos.get(i).getNumeroVotos();
         }
 
         Arrays.sort(numVotos);
         int minVotos = numVotos[numVotos.length - maxCadeiras];
 
-        for (Presidente cc : presidentes){
-            if (cc.getNumeroVotos() >= minVotos){
+        for (Presidente cc : presidentes) {
+            if (cc.getNumeroVotos() >= minVotos) {
                 presidenteEleito = cc;
             }
         }
@@ -228,15 +219,15 @@ public class Urna {
 
         int numVotos[] = new int[senadores.size()];
         List<Senador> listCandidatos = new ArrayList<Senador>(senadores);
-        for (int i=0; i<senadores.size(); i++){
+        for (int i = 0; i < senadores.size(); i++) {
             numVotos[i] = listCandidatos.get(i).getNumeroVotos();
         }
 
         Arrays.sort(numVotos);
         int minVotos = numVotos[numVotos.length - maxCadeiras];
 
-        for (Senador cc : senadores){
-            if (cc.getNumeroVotos() >= minVotos){
+        for (Senador cc : senadores) {
+            if (cc.getNumeroVotos() >= minVotos) {
                 senadoresEleitos.add(cc);
                 System.out.println(cc.getNome() + " -- " + String.valueOf(cc.getNumeroVotos()) + " votos");
             }
@@ -250,15 +241,15 @@ public class Urna {
 
         int numVotos[] = new int[deputadosFederais.size()];
         List<DeputadoFederal> listCandidatos = new ArrayList<DeputadoFederal>(deputadosFederais);
-        for (int i=0; i<deputadosFederais.size(); i++){
+        for (int i = 0; i < deputadosFederais.size(); i++) {
             numVotos[i] = listCandidatos.get(i).getNumeroVotos();
         }
 
         Arrays.sort(numVotos);
         int minVotos = numVotos[numVotos.length - maxCadeiras];
 
-        for (DeputadoFederal cc : deputadosFederais){
-            if (cc.getNumeroVotos() >= minVotos){
+        for (DeputadoFederal cc : deputadosFederais) {
+            if (cc.getNumeroVotos() >= minVotos) {
                 dfsEleitos.add(cc);
                 System.out.println(cc.getNome() + " -- " + String.valueOf(cc.getNumeroVotos()) + " votos");
             }
@@ -272,15 +263,15 @@ public class Urna {
 
         int numVotos[] = new int[deputadosEstaduais.size()];
         List<DeputadoEstadual> listCandidatos = new ArrayList<DeputadoEstadual>(deputadosEstaduais);
-        for (int i=0; i<deputadosEstaduais.size(); i++){
+        for (int i = 0; i < deputadosEstaduais.size(); i++) {
             numVotos[i] = listCandidatos.get(i).getNumeroVotos();
         }
 
         Arrays.sort(numVotos);
         int minVotos = numVotos[numVotos.length - maxCadeiras];
 
-        for (DeputadoEstadual cc : deputadosEstaduais){
-            if (cc.getNumeroVotos() >= minVotos){
+        for (DeputadoEstadual cc : deputadosEstaduais) {
+            if (cc.getNumeroVotos() >= minVotos) {
                 desEleitos.add(cc);
                 System.out.println(cc.getNome() + " -- " + String.valueOf(cc.getNumeroVotos()) + " votos");
             }
