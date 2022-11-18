@@ -1,4 +1,6 @@
 import constantes.CargosCandidatos;
+import excecoes.CandidatoNaoEncontradoException;
+import modelos.Candidato;
 import modelos.Presidente;
 import modelos.Urna;
 import service.GeradorDeCandidatosEPartidosService;
@@ -30,6 +32,11 @@ public class Main {
         }
         System.out.println("99 - Encerrar o programa");
         System.out.println("============================================================");
+    }
+
+    public static String executarMenuConfirmacaoVoto() {
+        System.out.print("Digite S para confimar seu voto ou N para corrigir: ");
+        return scanner.next().toUpperCase();
     }
 
     public static void executarMenuPrincipal() {
@@ -71,23 +78,47 @@ public class Main {
                             //TODO: Adicionar Exception para o caso do usuário digitar uma letra ao invés de número
 
                             int numeroCandidato;
-                            System.out.print("Digite o número do candidato a senador: ");
-                            numeroCandidato = scanner.nextInt();
+                            String confirmacao;
+                            Candidato candidato = null;
 
-                            //TODO: Antes de contabilizar o voto, é interessante perguntar se o eleitor quer confirmar
-                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.SENADOR, scanner);
+                            do {
+                                System.out.print("Digite o número do candidato a senador: ");
+                                numeroCandidato = scanner.nextInt();
+
+                                try {
+                                    candidato = urnaEleitoral.encontrarCandidato(numeroCandidato, CargosCandidatos.SENADOR);
+                                    System.out.println(candidato.getDetalhesCandidato());
+                                } catch (CandidatoNaoEncontradoException e) {
+                                    System.out.println(e.getMessage());
+                                }
+
+                                do {
+                                    confirmacao = executarMenuConfirmacaoVoto();
+                                } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                if (confirmacao.startsWith("S")) {
+                                    if (candidato == null) {
+                                        urnaEleitoral.incrementarVotosNulos();
+                                        System.out.println("voto nulo");
+                                    } else {
+                                        urnaEleitoral.addVotoAoCandidato2(candidato);
+                                        System.out.println("voto para " + candidato.getNome());
+                                    }
+                                }
+
+                            } while (!confirmacao.startsWith("S"));
 
                             System.out.print("Digite o número do candidato a dep. estadual: ");
                             numeroCandidato = scanner.nextInt();
-                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_ESTADUAL, scanner);
+                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_ESTADUAL);
 
                             System.out.print("Digite o número do candidato a dep. federal: ");
                             numeroCandidato = scanner.nextInt();
-                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_FEDERAL, scanner);
+                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_FEDERAL);
 
                             System.out.print("Digite o número do candidato a presidente: ");
                             numeroCandidato = scanner.nextInt();
-                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.PRESIDENTE, scanner);
+                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.PRESIDENTE);
 
                             System.out.print("Continuar [S/n]: ");
                             pararVotacao = scanner.next().toUpperCase();
