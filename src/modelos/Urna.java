@@ -3,9 +3,7 @@ package modelos;
 import excecoes.CandidatoNaoEncontradoException;
 import service.GeradorDeCandidatosEPartidosService;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Urna {
 
@@ -77,13 +75,23 @@ public class Urna {
         return candidato;
     }
 
-    public void addVotoAoCandidato(int numero, String cargo) {
+    public void addVotoAoCandidato(int numero, String cargo, Scanner sc) {
         Candidato candidato;
-
+        String confirm = "N";
         try {
-            candidato = encontrarCandidato(numero, cargo);
-            candidato.receberVoto();
-            imprimirInformacoesCandidato(candidato);
+            while(!confirm.startsWith("S")){
+                candidato = encontrarCandidato(numero, cargo);
+                System.out.print("Confirma que deseja votar no candidato " + candidato.getNome() + "? [S/n]: ");
+                confirm = sc.next().toUpperCase();
+                if(confirm.startsWith("S")){ //se sim, recebe voto
+                    candidato.receberVoto();
+                    imprimirInformacoesCandidato(candidato);
+                }else{ //se não, reinforma número
+                    System.out.print("digite novamente o número do candidato: ");
+                    numero = sc.nextInt();
+                }
+
+            }
         } catch (CandidatoNaoEncontradoException | NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -112,7 +120,7 @@ public class Urna {
     public void imprimirListaCandidatosAGovernador() {
         if (this.governadores != null) {
             for (Candidato c : this.governadores) {
-                System.out.println(c.getNome() + " -- " + c.getPartido().getNomePartido());
+                System.out.println(c.getNome() + " -- " + c.getNumero() + " -- " + c.getPartido().getNomePartido());
             }
         }
     }
@@ -120,7 +128,7 @@ public class Urna {
     public void imprimirListaCandidatosADepFederal() {
         if (this.deputadosFederais != null) {
             for (Candidato c : this.deputadosFederais) {
-                System.out.println(c.getNome() + " -- " + c.getPartido().getNomePartido());
+                System.out.println(c.getNome() + " -- " + c.getNumero() + " -- " + c.getPartido().getNomePartido());
             }
         }
     }
@@ -128,7 +136,7 @@ public class Urna {
     public void imprimirListaCandidatosADepEstadual() {
         if (this.deputadosEstaduais != null) {
             for (Candidato c : this.deputadosEstaduais) {
-                System.out.println(c.getNome() + " -- " + c.getPartido().getNomePartido());
+                System.out.println(c.getNome() + " -- " + c.getNumero() +  " -- " + c.getPartido().getNomePartido());
             }
         }
     }
@@ -190,6 +198,95 @@ public class Urna {
             }
         }
         return ranking;
+    }
+
+    public Presidente apuracaoPresidente(int maxCadeiras){
+        Presidente presidenteEleito = null;
+
+        int numVotos[] = new int[presidentes.size()];
+        List<Candidato> listCandidatos = new ArrayList<Candidato>(presidentes);
+        for (int i=0; i<presidentes.size(); i++){
+            numVotos[i] = listCandidatos.get(i).getNumeroVotos();
+        }
+
+        Arrays.sort(numVotos);
+        int minVotos = numVotos[numVotos.length - maxCadeiras];
+
+        for (Presidente cc : presidentes){
+            if (cc.getNumeroVotos() >= minVotos){
+                presidenteEleito = cc;
+            }
+        }
+
+        System.out.println(presidenteEleito.getNome() + " -- " + String.valueOf(presidenteEleito.getNumeroVotos()) + " votos");
+
+        return presidenteEleito;
+    }
+
+    public HashSet<Senador> apuracaoSenador(int maxCadeiras) {
+        HashSet<Senador> senadoresEleitos = new HashSet<Senador>();
+
+        int numVotos[] = new int[senadores.size()];
+        List<Senador> listCandidatos = new ArrayList<Senador>(senadores);
+        for (int i=0; i<senadores.size(); i++){
+            numVotos[i] = listCandidatos.get(i).getNumeroVotos();
+        }
+
+        Arrays.sort(numVotos);
+        int minVotos = numVotos[numVotos.length - maxCadeiras];
+
+        for (Senador cc : senadores){
+            if (cc.getNumeroVotos() >= minVotos){
+                senadoresEleitos.add(cc);
+                System.out.println(cc.getNome() + " -- " + String.valueOf(cc.getNumeroVotos()) + " votos");
+            }
+        }
+
+        return senadoresEleitos;
+    }
+
+    public HashSet<DeputadoFederal> apuracaoDF(int maxCadeiras) {
+        HashSet<DeputadoFederal> dfsEleitos = new HashSet<DeputadoFederal>();
+
+        int numVotos[] = new int[deputadosFederais.size()];
+        List<DeputadoFederal> listCandidatos = new ArrayList<DeputadoFederal>(deputadosFederais);
+        for (int i=0; i<deputadosFederais.size(); i++){
+            numVotos[i] = listCandidatos.get(i).getNumeroVotos();
+        }
+
+        Arrays.sort(numVotos);
+        int minVotos = numVotos[numVotos.length - maxCadeiras];
+
+        for (DeputadoFederal cc : deputadosFederais){
+            if (cc.getNumeroVotos() >= minVotos){
+                dfsEleitos.add(cc);
+                System.out.println(cc.getNome() + " -- " + String.valueOf(cc.getNumeroVotos()) + " votos");
+            }
+        }
+
+        return dfsEleitos;
+    }
+
+    public HashSet<DeputadoEstadual> apuracaoDE(int maxCadeiras) {
+        HashSet<DeputadoEstadual> desEleitos = new HashSet<DeputadoEstadual>();
+
+        int numVotos[] = new int[deputadosEstaduais.size()];
+        List<DeputadoEstadual> listCandidatos = new ArrayList<DeputadoEstadual>(deputadosEstaduais);
+        for (int i=0; i<deputadosEstaduais.size(); i++){
+            numVotos[i] = listCandidatos.get(i).getNumeroVotos();
+        }
+
+        Arrays.sort(numVotos);
+        int minVotos = numVotos[numVotos.length - maxCadeiras];
+
+        for (DeputadoEstadual cc : deputadosEstaduais){
+            if (cc.getNumeroVotos() >= minVotos){
+                desEleitos.add(cc);
+                System.out.println(cc.getNome() + " -- " + String.valueOf(cc.getNumeroVotos()) + " votos");
+            }
+        }
+
+        return desEleitos;
     }
 
 }

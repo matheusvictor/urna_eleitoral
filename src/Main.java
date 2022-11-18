@@ -71,23 +71,23 @@ public class Main {
                             //TODO: Adicionar Exception para o caso do usuário digitar uma letra ao invés de número
 
                             int numeroCandidato;
-                            System.out.print("Digite o número do candidato a senador");
+                            System.out.print("Digite o número do candidato a senador: ");
                             numeroCandidato = scanner.nextInt();
 
                             //TODO: Antes de contabilizar o voto, é interessante perguntar se o eleitor quer confirmar
-                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.SENADOR);
+                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.SENADOR, scanner);
 
                             System.out.print("Digite o número do candidato a dep. estadual: ");
                             numeroCandidato = scanner.nextInt();
-                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_ESTADUAL);
+                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_ESTADUAL, scanner);
 
                             System.out.print("Digite o número do candidato a dep. federal: ");
                             numeroCandidato = scanner.nextInt();
-                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_FEDERAL);
+                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_FEDERAL, scanner);
 
                             System.out.print("Digite o número do candidato a presidente: ");
                             numeroCandidato = scanner.nextInt();
-                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.PRESIDENTE);
+                            urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.PRESIDENTE, scanner);
 
                             System.out.print("Continuar [S/n]: ");
                             pararVotacao = scanner.next().toUpperCase();
@@ -127,6 +127,21 @@ public class Main {
                     }
                     case 8 -> {
                         // TODO
+                        // definir máximo de cadeiras para cada cargo
+
+                        System.out.println("\nPresidente eleito: ");
+                        urnaEleitoral.apuracaoPresidente(1);
+
+                        System.out.println("\nSenadores eleitos: ");
+                        urnaEleitoral.apuracaoSenador(3);
+
+                        System.out.println("\nDeputados Federais eleitos: ");
+                        urnaEleitoral.apuracaoDF(3);
+
+                        System.out.println("\nDeputados Estaduais eleitos: ");
+                        urnaEleitoral.apuracaoDE(4);
+
+
                     }
                     case 9 -> {
                         urnaEleitoral = null;
