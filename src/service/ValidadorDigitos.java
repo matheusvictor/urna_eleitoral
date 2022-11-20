@@ -15,4 +15,6 @@ public class ValidadorDigitos {
         return numero / (int) Math.pow(10, (quantidadeDigitos - 2));
     }
 
+    
+    
 }
