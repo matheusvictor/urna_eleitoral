@@ -112,6 +112,21 @@ public class Urna {
 
     public void addVotoAoCandidato2(Candidato candidato) {
         candidato.receberVoto();
+        
+        if(candidato instanceof Presidente)
+        	this.incPresid();
+        else if(candidato instanceof Governador) 
+        	this.incGov();
+        
+        else if(candidato instanceof Senador) 
+        	this.incSenad();
+        
+        else if(candidato instanceof DeputadoFederal) 
+        	this.incDepFed();
+        
+        else 
+        	this.incDepEst();
+        
     }
 //*************************************************************************
     public Candidato addVotoAoCandidato(int numero, String cargo) {
@@ -119,20 +134,6 @@ public class Urna {
         try {
             candidato = encontrarCandidato(numero, cargo);
             //candidato.receberVoto();
-            
-            if(candidato instanceof Presidente)
-            	this.incPresid();
-            else if(candidato instanceof Governador) 
-            	this.incGov();
-            
-            else if(candidato instanceof Senador) 
-            	this.incSenad();
-            
-            else if(candidato instanceof DeputadoFederal) 
-            	this.incDepFed();
-            
-            else 
-            	this.incDepEst();
             
         } catch (CandidatoNaoEncontradoException | NullPointerException e) {
             System.out.println(e.getMessage());
@@ -267,7 +268,7 @@ public class Urna {
         Collections.sort(listCandidatos);
         
         if(listCandidatos.size()>3) {
-        	for(int i = 3; i < listCandidatos.size(); i++)  
+        	for(int i = 3; i < listCandidatos.size(); i++)  // deleta excesso da lista
         		listCandidatos.remove(i);
         }
 
