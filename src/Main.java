@@ -413,7 +413,7 @@ public class Main {
                     	
                     	System.out.println("Votos para presidente:");
                     	for(Presidente i: urnaEleitoral.apuracaoPresidente()) {
-                    		perc = i.getNumeroVotos()/total;
+                    		perc = (float)i.getNumeroVotos()/total;
                     		System.out.printf("%s - %s - %d voto(s) (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
                     							i.getNumeroVotos(), perc*100);
                     	}
@@ -435,7 +435,7 @@ public class Main {
                     	if(total == 0) total = 1;
                     	
                     	for(Governador i: urnaEleitoral.apuracaoGov()) {
-                    		perc = i.getNumeroVotos()/total;
+                    		perc = (float)i.getNumeroVotos()/total;
                     		System.out.printf("%s - %s - %d votos (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
                     							i.getNumeroVotos(), perc*100);
                     	}
@@ -454,7 +454,7 @@ public class Main {
                         
                         System.out.println("\nSenadores eleitos: ");
                     	for(Senador i: urnaEleitoral.apuracaoSenador()) {
-                    		perc = i.getNumeroVotos()/total;
+                    		perc = (float)i.getNumeroVotos()/total;
                     		System.out.printf("%s - %s - %d voto(s) (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
                     							i.getNumeroVotos(), perc*100);
                     	}
@@ -465,7 +465,7 @@ public class Main {
 
                         System.out.println("\nDeputados Federais eleitos: ");
                     	for(DeputadoFederal i: urnaEleitoral.apuracaoDF()) {
-                    		perc = i.getNumeroVotos()/total;
+                    		perc = (float)i.getNumeroVotos()/total;
                     		System.out.printf("%s - %s - %d voto(s) (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
                     							i.getNumeroVotos(), perc*100);
                     	}
@@ -476,7 +476,7 @@ public class Main {
 
                         System.out.println("\nDeputados Estaduais eleitos: ");
                     	for(DeputadoEstadual i: urnaEleitoral.apuracaoDE()) {
-                    		perc = i.getNumeroVotos()/total;
+                    		perc = (float)i.getNumeroVotos()/total;
                     		System.out.printf("%s - %s - %d voto(s) (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
                     							i.getNumeroVotos(), perc*100);
                     	}
