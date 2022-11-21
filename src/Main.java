@@ -137,13 +137,23 @@ public class Main {
                             	System.out.print("Digite o número do candidato a DEP. ESTADUAL: ");
                                 try {
                                 	numeroCandidato = scanner.nextInt();
-                                	candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_ESTADUAL);
-                                	if(candidato != null) {
-                                		urnaEleitoral.addVotoAoCandidato2(candidato);
-                                		System.out.println("voto para " + candidato.getNome());
+                                	
+                                	if(numeroCandidato == 0) {
+                                		System.out.println("Voto EM BRANCO");
+                                		urnaEleitoral.incrementarVotosEmBranco();
                                 		break;
+                                	
+                                	}else {
+                                    	candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_ESTADUAL);
+                                    	if(candidato != null) {
+                                    		urnaEleitoral.addVotoAoCandidato2(candidato);
+                                    		System.out.println("voto para " + candidato.getNome());
+                                    		break;
+                                    	}else 
+                                    		urnaEleitoral.incrementarVotosNulos();
+                                    	
+                                    	break;
                                 	}
-                                	break;
 
                                 } catch(InputMismatchException e) {
                             		System.out.println("Entrada inválida!");
@@ -158,13 +168,22 @@ public class Main {
                             	System.out.print("Digite o número do candidato a DEP. FEDERAL: ");
                             	try {
                             		numeroCandidato = scanner.nextInt();
-                            		candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_FEDERAL);
-                            		if(candidato != null) {
-                            			urnaEleitoral.addVotoAoCandidato2(candidato);
-                            			System.out.println("voto para " + candidato.getNome());
-                            			break;
-                            		}
-                            		break;
+                            		
+                                	if(numeroCandidato == 0) {
+                                		System.out.println("Voto EM BRANCO");
+                                		urnaEleitoral.incrementarVotosEmBranco();
+                                		break;
+                                	
+                                	}else {
+                                		candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_FEDERAL);
+                                		if(candidato != null) {
+                                			urnaEleitoral.addVotoAoCandidato2(candidato);
+                                			System.out.println("voto para " + candidato.getNome());
+                                			break;
+                                		}else 
+                                    		urnaEleitoral.incrementarVotosNulos();
+                                		break;
+                                	}
                             		
                             	}catch(InputMismatchException e) {
                             		System.out.println("Entrada inválida!");
@@ -179,13 +198,22 @@ public class Main {
                            	 System.out.print("Digite o número do candidato a GOVERNADOR: ");
                            	 try {
                            		 numeroCandidato = scanner.nextInt();
-                           		 candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.GOVERNADOR);
-                           		 if(candidato != null) {
-                           			 urnaEleitoral.addVotoAoCandidato2(candidato);
-                           			 System.out.println("voto para " + candidato.getNome());
-                           			 break; 
-                           		 }
-                           		 break;
+                           		 
+                             	if(numeroCandidato == 0) {
+                            		System.out.println("Voto EM BRANCO");
+                            		urnaEleitoral.incrementarVotosEmBranco();
+                            		break;
+                            	
+                            	}else {
+                              		 candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.GOVERNADOR);
+                               		 if(candidato != null) {
+                               			 urnaEleitoral.addVotoAoCandidato2(candidato);
+                               			 System.out.println("voto para " + candidato.getNome());
+                               			 break; 
+                               		 }else 
+                                 		urnaEleitoral.incrementarVotosNulos();
+                               		 break;
+                            	}
                            		 
                            	 }catch(InputMismatchException e) {
                             		System.out.println("Entrada inválida!");
@@ -197,14 +225,23 @@ public class Main {
                             	 System.out.print("Digite o número do candidato a PRESIDENTE: ");
                             	 try {
                             		 numeroCandidato = scanner.nextInt();
-                            		 candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.PRESIDENTE);
-                            		 if(candidato != null) {
-                            			 urnaEleitoral.addVotoAoCandidato2(candidato);
-                            			 System.out.println("voto para " + candidato.getNome());
-                            			 break; 
-                            		 }
-                            		 break;
                             		 
+                                 	if(numeroCandidato == 0) {
+                                		System.out.println("Voto EM BRANCO");
+                                		urnaEleitoral.incrementarVotosEmBranco();
+                                		break;
+                                	
+                                	}else {
+                               		 	candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.PRESIDENTE);
+                               		 	if(candidato != null) {
+                               		 		urnaEleitoral.addVotoAoCandidato2(candidato);
+                               		 		System.out.println("voto para " + candidato.getNome());
+                               		 		break; 
+                               		 	}else 
+                                    		urnaEleitoral.incrementarVotosNulos();
+                               		 	break;
+                                	}
+                            		                       		 
                             	 }catch(InputMismatchException e) {
                              		System.out.println("Entrada inválida!");
                              		scanner.nextLine();
@@ -330,7 +367,9 @@ public class Main {
                     	}
                     	System.out.println("===============================");
                         //***********************************************************
-
+                    	System.out.println("Votos NULOS: "+urnaEleitoral.getVotosNulos());
+                    	System.out.println("Votos em BRANCO: "+urnaEleitoral.getVotosEmBranco());
+                    	
 
                     }
                     case 9 -> {
