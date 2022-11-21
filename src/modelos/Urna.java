@@ -267,7 +267,7 @@ public class Urna {
         Collections.sort(listCandidatos);
         
         if(listCandidatos.size()>3) {
-        	for(int i = 3; i < listCandidatos.size(); i++)  // deleta excesso da lista
+        	for(int i = 3; i < listCandidatos.size(); i++)  
         		listCandidatos.remove(i);
         }
 
