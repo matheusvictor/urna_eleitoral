@@ -94,39 +94,53 @@ public class Main {
 
                                 try {
                                 	numeroCandidato = scanner.nextInt();
-                                    candidato = urnaEleitoral.encontrarCandidato(numeroCandidato, CargosCandidatos.SENADOR);
-                                    System.out.println(candidato.getDetalhesCandidato());
-                                    seguir = true;
-                                    
-                                } catch (CandidatoNaoEncontradoException e) {
-                                    System.out.println(e.getMessage());
-                                    seguir = true;
-                                
-                                } catch (InputMismatchException e) {              //tratamento entrada (esse caso)
-                                    System.out.println("Entrada inválida!");
-                                    scanner.nextLine();
-                                }
-
-                                if(seguir) {
                                 	
-                                    do {
-                                        confirmacao = executarMenuConfirmacaoVoto();
-                                    } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+                                	if(numeroCandidato == 0) {
+                                		System.out.println("Voto EM BRANCO");
+                                		
+                                        do {
+                                            confirmacao = executarMenuConfirmacaoVoto();
+                                        } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
 
-                                    if (confirmacao.startsWith("S")) {
-                                        if (candidato == null) {
-                                            urnaEleitoral.incrementarVotosNulos();
-                                            System.out.println("voto nulo");
-                                            
-                                            break;
-                                        } else {
-                                            urnaEleitoral.addVotoAoCandidato2(candidato);
-                                            System.out.println("voto para " + candidato.getNome());
-                                            break;
-                                        }
-                                    }
-                                }
-                                seguir = false;
+                                        if (confirmacao.startsWith("S")) {
+                                        	urnaEleitoral.incrementarVotosEmBranco();
+                                        	break;
+                                        }                           	
+                                	}else {
+                                    	candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.SENADOR);
+                                    	if(candidato != null) {
+                                    		
+                                    		System.out.println("voto para " + candidato.getNome());
+                                    		
+                                            do {
+                                                confirmacao = executarMenuConfirmacaoVoto();
+                                            } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.addVotoAoCandidato2(candidato);
+                                            	break;
+                                            }
+                                    		
+                                    	}else {
+                                    		
+                                            do {
+                                                confirmacao = executarMenuConfirmacaoVoto();
+                                            } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.incrementarVotosNulos();
+                                            	break;
+                                            }
+                                    		                                   		
+                                    	}
+                                    		                                   	
+                                    	//break;
+                                	}
+
+                                } catch(InputMismatchException e) {
+                            		System.out.println("Entrada inválida!");
+                            		scanner.nextLine();
+                            	}
                                 
 
 
@@ -140,19 +154,44 @@ public class Main {
                                 	
                                 	if(numeroCandidato == 0) {
                                 		System.out.println("Voto EM BRANCO");
-                                		urnaEleitoral.incrementarVotosEmBranco();
-                                		break;
-                                	
+                                		
+                                        do {
+                                            confirmacao = executarMenuConfirmacaoVoto();
+                                        } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                        if (confirmacao.startsWith("S")) {
+                                        	urnaEleitoral.incrementarVotosEmBranco();
+                                        	break;
+                                        }                           	
                                 	}else {
                                     	candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_ESTADUAL);
                                     	if(candidato != null) {
-                                    		urnaEleitoral.addVotoAoCandidato2(candidato);
+                                    		
                                     		System.out.println("voto para " + candidato.getNome());
-                                    		break;
-                                    	}else 
-                                    		urnaEleitoral.incrementarVotosNulos();
-                                    	
-                                    	break;
+                                    		
+                                            do {
+                                                confirmacao = executarMenuConfirmacaoVoto();
+                                            } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.addVotoAoCandidato2(candidato);
+                                            	break;
+                                            }
+                                    		
+                                    	}else {
+                                    		
+                                    		do {
+                                    			confirmacao = executarMenuConfirmacaoVoto();
+                                            
+                                    		} while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.incrementarVotosNulos();
+                                            	break;
+                                            }
+                                    	}
+                                    		
+                                    	//break;
                                 	}
 
                                 } catch(InputMismatchException e) {
@@ -171,18 +210,45 @@ public class Main {
                             		
                                 	if(numeroCandidato == 0) {
                                 		System.out.println("Voto EM BRANCO");
-                                		urnaEleitoral.incrementarVotosEmBranco();
-                                		break;
+                                		
+                                        do {
+                                            confirmacao = executarMenuConfirmacaoVoto();
+                                        } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                        if (confirmacao.startsWith("S")) {
+                                        	urnaEleitoral.incrementarVotosEmBranco();
+                                        	break;
+                                        }
                                 	
                                 	}else {
                                 		candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_FEDERAL);
                                 		if(candidato != null) {
-                                			urnaEleitoral.addVotoAoCandidato2(candidato);
+                                			
                                 			System.out.println("voto para " + candidato.getNome());
-                                			break;
-                                		}else 
-                                    		urnaEleitoral.incrementarVotosNulos();
-                                		break;
+                                			
+                                            do {
+                                                confirmacao = executarMenuConfirmacaoVoto();
+                                            } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.addVotoAoCandidato2(candidato);
+                                            	break;
+                                            }
+                                			
+                                		}else {
+                                    		
+                                    		do {
+                                    			confirmacao = executarMenuConfirmacaoVoto();
+                                            
+                                    		} while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.incrementarVotosNulos();
+                                            	break;
+                                            }
+                                		}
+                                    		
+                                		//break;
                                 	}
                             		
                             	}catch(InputMismatchException e) {
@@ -201,18 +267,42 @@ public class Main {
                            		 
                              	if(numeroCandidato == 0) {
                             		System.out.println("Voto EM BRANCO");
-                            		urnaEleitoral.incrementarVotosEmBranco();
-                            		break;
+                                    do {
+                                        confirmacao = executarMenuConfirmacaoVoto();
+                                    } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                    if (confirmacao.startsWith("S")) {
+                                    	urnaEleitoral.incrementarVotosEmBranco();
+                                    	break;
+                                    }
                             	
                             	}else {
                               		 candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.GOVERNADOR);
                                		 if(candidato != null) {
-                               			 urnaEleitoral.addVotoAoCandidato2(candidato);
+                               			 
                                			 System.out.println("voto para " + candidato.getNome());
-                               			 break; 
-                               		 }else 
-                                 		urnaEleitoral.incrementarVotosNulos();
-                               		 break;
+                               			 
+                                         do {
+                                             confirmacao = executarMenuConfirmacaoVoto();
+                                         } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                         if (confirmacao.startsWith("S")) {
+                                         	urnaEleitoral.addVotoAoCandidato2(candidato);
+                                         	break;
+                                         }
+                               		 }else {
+                                 		
+                                 		do {
+                                 			confirmacao = executarMenuConfirmacaoVoto();
+                                         
+                                 		} while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                         if (confirmacao.startsWith("S")) {
+                                         	urnaEleitoral.incrementarVotosNulos();
+                                         	break;
+                                         }
+                               		 }
+                               		// break;
                             	}
                            		 
                            	 }catch(InputMismatchException e) {
@@ -228,18 +318,43 @@ public class Main {
                             		 
                                  	if(numeroCandidato == 0) {
                                 		System.out.println("Voto EM BRANCO");
-                                		urnaEleitoral.incrementarVotosEmBranco();
-                                		break;
+                                        do {
+                                            confirmacao = executarMenuConfirmacaoVoto();
+                                        } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                        if (confirmacao.startsWith("S")) {
+                                        	urnaEleitoral.incrementarVotosEmBranco();
+                                        	break;
+                                        }
                                 	
                                 	}else {
                                		 	candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.PRESIDENTE);
                                		 	if(candidato != null) {
-                               		 		urnaEleitoral.addVotoAoCandidato2(candidato);
-                               		 		System.out.println("voto para " + candidato.getNome());
-                               		 		break; 
-                               		 	}else 
-                                    		urnaEleitoral.incrementarVotosNulos();
-                               		 	break;
+                               		 		
+                               		 	    System.out.println("voto para " + candidato.getNome());
+                               		 		
+                                            do {
+                                                confirmacao = executarMenuConfirmacaoVoto();
+                                            } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.addVotoAoCandidato2(candidato);
+                                            	break;
+                                            }
+                               		 	}else {
+
+                                    		do {
+                                    			confirmacao = executarMenuConfirmacaoVoto();
+                                            
+                                    		} while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.incrementarVotosNulos();
+                                            	break;
+                                            }
+                               		 	}
+                                    		
+                               		 	//break;
                                 	}
                             		                       		 
                             	 }catch(InputMismatchException e) {
