@@ -83,51 +83,69 @@ public class Main {
                         int indiceCargos = 0;
                         int numeroCandidato;
                         Candidato candidato = null;
-                        String opcaoDeConfirmacao;
+                        String opcaoDeConfirmacao = "";
 
                         do {
 
                             do {
-
+                              
+                              do{
+                                System.out.println("Caso queira votar em branco digite 0!");
                                 System.out.print("Digite o número do candidato a " + cargos[indiceCargos] + ": ");
 
                                 try {
                                     numeroCandidato = scanner.nextInt();
-
-                                    try {
-                                        candidato = urnaEleitoral.encontrarCandidato(numeroCandidato, cargos[indiceCargos]);
-                                    } catch (CandidatoNaoEncontradoException naoEncontradoException) {
-                                        System.out.println(naoEncontradoException.getMessage());
+                                    if (numeroCandidato == 0){
+                                      System.out.println("Voto será contabilizado como em branco!");
+                                      imprimirMenuConfirmacaoDeVoto();
+                                      opcaoDeConfirmacao = scanner.next();
+                                      opcaoDeConfirmacao = opcaoDeConfirmacao.toUpperCase();
+  
+                                      if (opcaoDeConfirmacao.equals("S")) {
+                                          urnaEleitoral.incrementarVotosEmBranco(indiceCargos);
+                                          System.out.println("Voto em Branco computado!");
+                                      }
+                                    }else{
+                                        try {
+                                          candidato = urnaEleitoral.encontrarCandidato(numeroCandidato, cargos[indiceCargos]);
+                                      } catch (CandidatoNaoEncontradoException naoEncontradoException) {
+                                          System.out.println(naoEncontradoException.getMessage());
+                                      }
+  
+                                      imprimirMenuConfirmacaoDeVoto();
+                                      opcaoDeConfirmacao = scanner.next();
+                                      opcaoDeConfirmacao = opcaoDeConfirmacao.toUpperCase();
+  
+                                      if (opcaoDeConfirmacao.equals("S")) {
+  
+                                          if (candidato != null) {
+                                              urnaEleitoral.addVotoAoCandidato(candidato);
+                                              System.out.println("Voto no candidato " + candidato.getNome() + " computado!");
+                                          } else {
+                                              urnaEleitoral.incrementarVotosNulos(indiceCargos);
+                                            System.out.println("Voto Nulo computado!");
+                                          }
+                                      }
                                     }
-
-                                    imprimirMenuConfirmacaoDeVoto();
-                                    opcaoDeConfirmacao = scanner.next();
-
-                                    if (opcaoDeConfirmacao.startsWith("S")) {
-                                        indiceCargos++;
-
-                                        if (candidato != null) {
-                                            urnaEleitoral.addVotoAoCandidato(candidato);
-                                        } else {
-                                            urnaEleitoral.incrementarVotosNulos();
-                                        }
-                                        break;
-                                    }
-
-                                    System.out.print("Continuar [S/n]: ");
-                                    pararVotacao = scanner.next().toUpperCase();
-
-                                    if (pararVotacao.startsWith("N")) {
-                                        votacaoEmAndamento = false;
-                                    }
-
+                                  
                                 } catch (InputMismatchException e) {
                                     System.out.println("Entrada inválida!");
                                 }
+                              }while(opcaoDeConfirmacao.equals("N"));
+                            indiceCargos++;
 
-                            } while (true);
+                            } while (indiceCargos < 5);
+                          System.out.print("Continuar [S/n]: ");
+                          pararVotacao = scanner.next().toUpperCase();
+
+                          if (pararVotacao.startsWith("N")) {
+                              votacaoEmAndamento = false;
+                          }else{
+                            indiceCargos=0;
+                          }
 
                         } while (votacaoEmAndamento);
+                      break;
                     }
 
                     //TODO: case 3 a 7 são muito parecidos. Será que encontramos outra forma de escrever isso?
