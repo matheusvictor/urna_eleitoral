@@ -16,9 +16,11 @@ public class Urna {
     private HashSet<Governador> governadores = new HashSet<>();
     private HashSet<DeputadoFederal> deputadosFederais = new HashSet<>();
     private HashSet<DeputadoEstadual> deputadosEstaduais = new HashSet<>();
-    private int votosNulos = 0;
+    //private int votosNulos = 0;
     private int votosValidos = 0;
-    private int votosEmBranco = 0;
+    //private int votosEmBranco = 0;
+    private int votosEmBranco[] = new int[5];
+    private int votosNulos[] = new int[5];
 
     private static int votosTotaisPresidente = 0, votosTotaisGovernador = 0,
             votosTotaisSenador = 0, votosTotaisDepFed = 0, votosTotaisDepEst = 0;
@@ -66,9 +68,21 @@ public class Urna {
     //***************************************************
 
     public String getZeresima() {
+        int votosNulosGeral = this.votosNulos[0]+this.votosNulos[1]+this.votosNulos[2]+this.votosNulos[3]+this.votosNulos[4];
+        int votosEmBrancoGeral = this.votosEmBranco[0]+this.votosEmBranco[1]+this.votosEmBranco[2]+this.votosEmBranco[3]+this.votosEmBranco[4];
         return "Votos válidos: " + this.votosValidos + "\n" +
-                "Votos nulos: " + this.votosNulos + "\n" +
-                "Votos em branco: " + this.votosEmBranco;
+                "Votos nulos em geral: " + votosNulosGeral + "\n" +
+                "Votos em branco em geral: " + votosEmBrancoGeral + "\n" +
+                "Votos nulos para Deputado(a) Estadual: " + this.votosNulos[0] + "\n" +
+                "Votos nulos para Deputado(a) Federal: " + this.votosNulos[1] + "\n" +
+                "Votos nulos para Senador(a): " + this.votosNulos[2] + "\n" +
+                "Votos nulos para Governador(a): " + this.votosNulos[3] + "\n" +
+                "Votos nulos para Presidente: " + this.votosNulos[4] + "\n" +
+                "Votos em branco para Deputado(a) Estadual: " + this.votosEmBranco[0] + "\n" +
+                "Votos em branco para Deputado(a) Federal: " + this.votosEmBranco[1] + "\n" +
+                "Votos em branco para Senador(a): " + this.votosEmBranco[2] + "\n" +
+                "Votos em branco para Governador(a): " + this.votosEmBranco[3] + "\n" +
+                "Votos em branco para Presidente: " + this.votosEmBranco[4];
     }
 
     public void habilitarUrnaParaVotacao(GeradorDeCandidatosEPartidosService service) {
@@ -76,19 +90,19 @@ public class Urna {
         filtrarCandidatosPorCargo();
     }
 
-    public void incrementarVotosNulos() {
-        this.votosNulos++;
+    public void incrementarVotosNulos(int i) {
+        this.votosNulos[i]++;
     }
 
-    public int getVotosNulos() {
+    public int[] getVotosNulos() {
         return votosNulos;
     }
 
-    public void incrementarVotosEmBranco() {
-        this.votosEmBranco++;
+    public void incrementarVotosEmBranco(int i) {
+        this.votosEmBranco[i]++;
     }
 
-    public int getVotosEmBranco() {
+    public int[] getVotosEmBranco() {
         return votosEmBranco;
     }
 
