@@ -145,7 +145,6 @@ public class Main {
                           }
 
                         } while (votacaoEmAndamento);
-                      break;
                     }
 
                     //TODO: case 3 a 7 são muito parecidos. Será que encontramos outra forma de escrever isso?
@@ -175,8 +174,6 @@ public class Main {
                         }
                     }
                     case 8 -> {
-                        // TODO
-                        // definir máximo de cadeiras para cada cargo
 
                         int total = urnaEleitoral.ttPresid();
                         if (total == 0) total = 1;
@@ -202,8 +199,6 @@ public class Main {
 
                         System.out.println("===============================");
 
-                        //***********************************************************
-
                         System.out.println("Votos para Governador:");
                         total = urnaEleitoral.ttGov();
                         if (total == 0) total = 1;
@@ -222,7 +217,6 @@ public class Main {
                         }
                         System.out.println("===============================");
 
-                        //*************************************************************
                         total = urnaEleitoral.ttSenad();
                         if (total == 0) total = 1;
 
@@ -233,7 +227,6 @@ public class Main {
                                     i.getNumeroVotos(), perc * 100);
                         }
                         System.out.println("===============================");
-                        //*****************************************************
                         total = urnaEleitoral.ttDepFed();
                         if (total == 0) total = 1;
 
@@ -244,7 +237,6 @@ public class Main {
                                     i.getNumeroVotos(), perc * 100);
                         }
                         System.out.println("===============================");
-                        //*********************************************************************************
                         total = urnaEleitoral.ttDepEst();
                         if (total == 0) total = 1;
 
@@ -255,7 +247,6 @@ public class Main {
                                     i.getNumeroVotos(), perc * 100);
                         }
                         System.out.println("===============================");
-                        //***********************************************************
                         System.out.println("Votos NULOS: " + urnaEleitoral.getVotosNulos());
                         System.out.println("Votos em BRANCO: " + urnaEleitoral.getVotosEmBranco());
 
