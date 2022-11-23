@@ -4,9 +4,12 @@ import constantes.NomesESiglasPartidos;
 import constantes.NomesEstados;
 import constantes.NumerosPartidos;
 import modelos.Candidato;
+import modelos.DeputadoEstadual;
 import modelos.DeputadoFederal;
+import modelos.Governador;
 import modelos.Partido;
 import modelos.Presidente;
+import modelos.Senador;
 
 import java.util.HashSet;
 
@@ -67,8 +70,27 @@ public class GeradorDeCandidatosEPartidosService {
 
                 Candidato dep_federal = new DeputadoFederal("Paula", 'F', NomesEstados.ACRE, partido);
                 this.candidatos.add(dep_federal);
+                
+            	Candidato governador = new Governador("Jeremias", 'M', NomesEstados.CEARA, partido);
+            	this.candidatos.add(governador);
 
+            
+            }else if(partido.getNumeroPartido() == NumerosPartidos.PARTIDO_CONSERVADOR) {
+            	Candidato depEst = new DeputadoEstadual("Vildomar", 'M', NomesEstados.CEARA, partido);
+            	this.candidatos.add(depEst);
+            	
+            	Candidato governador = new Governador("Militante", 'M', NomesEstados.CEARA, partido);
+            	this.candidatos.add(governador);
+            
+            }else if(partido.getNumeroPartido() == NumerosPartidos.PARTIDO_CAPITALISTA_DO_BRASIL) {
+            	Candidato depFed = new DeputadoEstadual("Hildebrando", 'M', NomesEstados.CEARA, partido);
+            	this.candidatos.add(depFed);
+            	
+            	Candidato senador = new Senador("Julinho Maromba", 'M', NomesEstados.BAHIA, partido);
+            	this.candidatos.add(senador);
+            
             }
+            
         }
 
     }

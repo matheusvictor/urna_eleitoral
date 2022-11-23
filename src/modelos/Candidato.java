@@ -3,7 +3,7 @@ package modelos;
 import constantes.NomesEstados;
 import interfaces.GeradorNumeroCandidato;
 
-public abstract class Candidato implements GeradorNumeroCandidato {
+public abstract class Candidato implements GeradorNumeroCandidato, Comparable<Candidato> { //add comparable para ordenação de listas
 
     private static int contador = 0;
 
@@ -81,6 +81,11 @@ public abstract class Candidato implements GeradorNumeroCandidato {
                 "Cargo: " + cargo + "\n" +
                 "Partido: " + partido.getNomePartido() + "\n" +
                 "Número de votos: " + numeroVotos;
+    }
+    
+    @Override
+    public int compareTo(Candidato c) {
+    	return c.getNumeroVotos() - this.getNumeroVotos();  //metodo comparable
     }
 
 }
