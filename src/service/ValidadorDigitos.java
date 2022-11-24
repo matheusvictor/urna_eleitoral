@@ -13,8 +13,6 @@ public class ValidadorDigitos {
     public static int validarNumeroPartido(int numero) {
         int quantidadeDigitos = verificarQuantidadeDigitos(numero);
         return numero / (int) Math.pow(10, (quantidadeDigitos - 2));
-    }
-
-    
+    }   
     
 }

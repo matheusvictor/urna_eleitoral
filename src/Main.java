@@ -1,6 +1,12 @@
 import constantes.CargosCandidatos;
 import excecoes.CandidatoNaoEncontradoException;
-import modelos.*;
+import modelos.Candidato;
+import modelos.DeputadoEstadual;
+import modelos.DeputadoFederal;
+import modelos.Governador;
+import modelos.Presidente;
+import modelos.Senador;
+import modelos.Urna;
 import service.GeradorDeCandidatosEPartidosService;
 
 import java.util.InputMismatchException;
@@ -33,8 +39,9 @@ public class Main {
         System.out.println("============================================================");
     }
 
-    public static void imprimirMenuConfirmacaoDeVoto() {
+    public static String executarMenuConfirmacaoVoto() {
         System.out.print("Digite S para confimar seu voto ou N para corrigir: ");
+        return scanner.next().toUpperCase();
     }
 
     public static void executarMenuPrincipal() {
@@ -70,79 +77,299 @@ public class Main {
 
                         String pararVotacao;
                         boolean votacaoEmAndamento = true;
-
-                        String[] cargos = new String[]
-                                {
-                                        CargosCandidatos.DEPUTADO_ESTADUAL.toUpperCase(),
-                                        CargosCandidatos.DEPUTADO_FEDERAL.toUpperCase(),
-                                        CargosCandidatos.SENADOR.toUpperCase(),
-                                        CargosCandidatos.GOVERNADOR.toUpperCase(),
-                                        CargosCandidatos.PRESIDENTE.toUpperCase()
-                                };
-
-                        int indiceCargos = 0;
-                        int numeroCandidato;
-                        Candidato candidato = null;
-                        String opcaoDeConfirmacao = "";
-
+                        
+                        
                         do {
 
+                            //FIXME: Tentar encontrar uma maneira que faça o mesmo com menos repetições de código
+                            //TODO: Adicionar Exception para o caso do usuário digitar uma letra ao invés de número
+
+                            int numeroCandidato;
+                            String confirmacao;
+                            Candidato candidato = null;
+                            boolean seguir = false;
+
                             do {
-                              
-                              do{
-                                System.out.println("Caso queira votar em branco digite 0!");
-                                System.out.print("Digite o número do candidato a " + cargos[indiceCargos] + ": ");
+                                System.out.print("Digite o número do candidato a SENADOR: ");
 
                                 try {
-                                    numeroCandidato = scanner.nextInt();
-                                    if (numeroCandidato == 0){
-                                      System.out.println("Voto será contabilizado como em branco!");
-                                      imprimirMenuConfirmacaoDeVoto();
-                                      opcaoDeConfirmacao = scanner.next();
-                                      opcaoDeConfirmacao = opcaoDeConfirmacao.toUpperCase();
-  
-                                      if (opcaoDeConfirmacao.equals("S")) {
-                                          urnaEleitoral.incrementarVotosEmBranco(indiceCargos);
-                                          System.out.println("Voto em Branco computado!");
-                                      }
-                                    }else{
-                                        try {
-                                          candidato = urnaEleitoral.encontrarCandidato(numeroCandidato, cargos[indiceCargos]);
-                                      } catch (CandidatoNaoEncontradoException naoEncontradoException) {
-                                          System.out.println(naoEncontradoException.getMessage());
-                                      }
-  
-                                      imprimirMenuConfirmacaoDeVoto();
-                                      opcaoDeConfirmacao = scanner.next();
-                                      opcaoDeConfirmacao = opcaoDeConfirmacao.toUpperCase();
-  
-                                      if (opcaoDeConfirmacao.equals("S")) {
-  
-                                          if (candidato != null) {
-                                              urnaEleitoral.addVotoAoCandidato(candidato);
-                                              System.out.println("Voto no candidato " + candidato.getNome() + " computado!");
-                                          } else {
-                                              urnaEleitoral.incrementarVotosNulos(indiceCargos);
-                                            System.out.println("Voto Nulo computado!");
-                                          }
-                                      }
+                                	numeroCandidato = scanner.nextInt();
+                                	
+                                	if(numeroCandidato == 0) {
+                                		System.out.println("Voto EM BRANCO");
+                                		
+                                        do {
+                                            confirmacao = executarMenuConfirmacaoVoto();
+                                        } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                        if (confirmacao.startsWith("S")) {
+                                        	urnaEleitoral.incrementarVotosEmBranco();
+                                        	break;
+                                        }                           	
+                                	}else {
+                                    	candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.SENADOR);
+                                    	if(candidato != null) {
+                                    		
+                                    		System.out.println("voto para " + candidato.getNome());
+                                    		
+                                            do {
+                                                confirmacao = executarMenuConfirmacaoVoto();
+                                            } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.addVotoAoCandidato2(candidato);
+                                            	break;
+                                            }
+                                    		
+                                    	}else {
+                                    		
+                                            do {
+                                                confirmacao = executarMenuConfirmacaoVoto();
+                                            } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.incrementarVotosNulos();
+                                            	break;
+                                            }
+                                    		                                   		
+                                    	}
+                                    		                                   	
+                                    	//break;
+                                	}
+
+                                } catch(InputMismatchException e) {
+                            		System.out.println("Entrada inválida!");
+                            		scanner.nextLine();
+                            	}
+                                
+
+
+                            } while (true);
+
+                            //****************************************************************************
+                            do {
+                            	System.out.print("Digite o número do candidato a DEP. ESTADUAL: ");
+                                try {
+                                	numeroCandidato = scanner.nextInt();
+                                	
+                                	if(numeroCandidato == 0) {
+                                		System.out.println("Voto EM BRANCO");
+                                		
+                                        do {
+                                            confirmacao = executarMenuConfirmacaoVoto();
+                                        } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                        if (confirmacao.startsWith("S")) {
+                                        	urnaEleitoral.incrementarVotosEmBranco();
+                                        	break;
+                                        }                           	
+                                	}else {
+                                    	candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_ESTADUAL);
+                                    	if(candidato != null) {
+                                    		
+                                    		System.out.println("voto para " + candidato.getNome());
+                                    		
+                                            do {
+                                                confirmacao = executarMenuConfirmacaoVoto();
+                                            } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.addVotoAoCandidato2(candidato);
+                                            	break;
+                                            }
+                                    		
+                                    	}else {
+                                    		
+                                    		do {
+                                    			confirmacao = executarMenuConfirmacaoVoto();
+                                            
+                                    		} while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.incrementarVotosNulos();
+                                            	break;
+                                            }
+                                    	}
+                                    		
+                                    	//break;
+                                	}
+
+                                } catch(InputMismatchException e) {
+                            		System.out.println("Entrada inválida!");
+                            		scanner.nextLine();
+                            	}
+                            	
+                            }while(true);
+
+                            
+                            //****************************************************************************
+                            do {
+                            	System.out.print("Digite o número do candidato a DEP. FEDERAL: ");
+                            	try {
+                            		numeroCandidato = scanner.nextInt();
+                            		
+                                	if(numeroCandidato == 0) {
+                                		System.out.println("Voto EM BRANCO");
+                                		
+                                        do {
+                                            confirmacao = executarMenuConfirmacaoVoto();
+                                        } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                        if (confirmacao.startsWith("S")) {
+                                        	urnaEleitoral.incrementarVotosEmBranco();
+                                        	break;
+                                        }
+                                	
+                                	}else {
+                                		candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.DEPUTADO_FEDERAL);
+                                		if(candidato != null) {
+                                			
+                                			System.out.println("voto para " + candidato.getNome());
+                                			
+                                            do {
+                                                confirmacao = executarMenuConfirmacaoVoto();
+                                            } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.addVotoAoCandidato2(candidato);
+                                            	break;
+                                            }
+                                			
+                                		}else {
+                                    		
+                                    		do {
+                                    			confirmacao = executarMenuConfirmacaoVoto();
+                                            
+                                    		} while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.incrementarVotosNulos();
+                                            	break;
+                                            }
+                                		}
+                                    		
+                                		//break;
+                                	}
+                            		
+                            	}catch(InputMismatchException e) {
+                            		System.out.println("Entrada inválida!");
+                            		scanner.nextLine();
+                            	}
+                            	
+                            	
+                            }while(true);
+                            
+                            //*************************************************************************
+                            do {
+                           	 System.out.print("Digite o número do candidato a GOVERNADOR: ");
+                           	 try {
+                           		 numeroCandidato = scanner.nextInt();
+                           		 
+                             	if(numeroCandidato == 0) {
+                            		System.out.println("Voto EM BRANCO");
+                                    do {
+                                        confirmacao = executarMenuConfirmacaoVoto();
+                                    } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                    if (confirmacao.startsWith("S")) {
+                                    	urnaEleitoral.incrementarVotosEmBranco();
+                                    	break;
                                     }
-                                  
-                                } catch (InputMismatchException e) {
-                                    System.out.println("Entrada inválida!");
-                                }
-                              }while(opcaoDeConfirmacao.equals("N"));
-                            indiceCargos++;
+                            	
+                            	}else {
+                              		 candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.GOVERNADOR);
+                               		 if(candidato != null) {
+                               			 
+                               			 System.out.println("voto para " + candidato.getNome());
+                               			 
+                                         do {
+                                             confirmacao = executarMenuConfirmacaoVoto();
+                                         } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
 
-                            } while (indiceCargos < 5);
-                          System.out.print("Continuar [S/n]: ");
-                          pararVotacao = scanner.next().toUpperCase();
+                                         if (confirmacao.startsWith("S")) {
+                                         	urnaEleitoral.addVotoAoCandidato2(candidato);
+                                         	break;
+                                         }
+                               		 }else {
+                                 		
+                                 		do {
+                                 			confirmacao = executarMenuConfirmacaoVoto();
+                                         
+                                 		} while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
 
-                          if (pararVotacao.startsWith("N")) {
-                              votacaoEmAndamento = false;
-                          }else{
-                            indiceCargos=0;
-                          }
+                                         if (confirmacao.startsWith("S")) {
+                                         	urnaEleitoral.incrementarVotosNulos();
+                                         	break;
+                                         }
+                               		 }
+                               		// break;
+                            	}
+                           		 
+                           	 }catch(InputMismatchException e) {
+                            		System.out.println("Entrada inválida!");
+                            		scanner.nextLine();
+                           	 }	
+                           }while(true);
+                            //**********************************************************************
+                            do {
+                            	 System.out.print("Digite o número do candidato a PRESIDENTE: ");
+                            	 try {
+                            		 numeroCandidato = scanner.nextInt();
+                            		 
+                                 	if(numeroCandidato == 0) {
+                                		System.out.println("Voto EM BRANCO");
+                                        do {
+                                            confirmacao = executarMenuConfirmacaoVoto();
+                                        } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                        if (confirmacao.startsWith("S")) {
+                                        	urnaEleitoral.incrementarVotosEmBranco();
+                                        	break;
+                                        }
+                                	
+                                	}else {
+                               		 	candidato = urnaEleitoral.addVotoAoCandidato(numeroCandidato, CargosCandidatos.PRESIDENTE);
+                               		 	if(candidato != null) {
+                               		 		
+                               		 	    System.out.println("voto para " + candidato.getNome());
+                               		 		
+                                            do {
+                                                confirmacao = executarMenuConfirmacaoVoto();
+                                            } while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.addVotoAoCandidato2(candidato);
+                                            	break;
+                                            }
+                               		 	}else {
+
+                                    		do {
+                                    			confirmacao = executarMenuConfirmacaoVoto();
+                                            
+                                    		} while (!confirmacao.startsWith("S") && !confirmacao.startsWith("N"));
+
+                                            if (confirmacao.startsWith("S")) {
+                                            	urnaEleitoral.incrementarVotosNulos();
+                                            	break;
+                                            }
+                               		 	}
+                                    		
+                               		 	//break;
+                                	}
+                            		                       		 
+                            	 }catch(InputMismatchException e) {
+                             		System.out.println("Entrada inválida!");
+                             		scanner.nextLine();
+                            	 }	
+                            }while(true);
+                            
+                            //*************************************************************************
+                            System.out.print("Continuar [S/n]: ");
+                            pararVotacao = scanner.next().toUpperCase();
+
+                            if (pararVotacao.startsWith("N")) {
+                                votacaoEmAndamento = false;
+                            }
 
                         } while (votacaoEmAndamento);
                     }
@@ -174,82 +401,90 @@ public class Main {
                         }
                     }
                     case 8 -> {
-
-                        int total = urnaEleitoral.ttPresid();
-                        if (total == 0) total = 1;
-                        float perc;
-
-                        System.out.println("\nA P U R A Ç Ã O");
-                        System.out.println("================");
-
-                        System.out.println("Votos para presidente:");
-                        for (Presidente i : urnaEleitoral.apuracaoPresidente()) {
-                            perc = (float) i.getNumeroVotos() / total;
-                            System.out.printf("%s - %s - %d voto(s) (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
-                                    i.getNumeroVotos(), perc * 100);
+                        // TODO
+                        // definir máximo de cadeiras para cada cargo
+                    	
+                    	int total = urnaEleitoral.ttPresid();
+                    	if(total == 0) total = 1;
+                    	float perc;
+                    	
+                    	System.out.println("\nA P U R A Ç Ã O");
+                    	System.out.println("================");
+                    	
+                    	System.out.println("Votos para presidente:");
+                    	for(Presidente i: urnaEleitoral.apuracaoPresidente()) {
+                    		perc = (float)i.getNumeroVotos()/total;
+                    		System.out.printf("%s - %s - %d voto(s) (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
+                    							i.getNumeroVotos(), perc*100);
+                    	}
+                        
+                        if(urnaEleitoral.ttPresid() > 0) {
+                        	System.out.println("\nPresidente eleito: ");
+                        	System.out.println(urnaEleitoral.apuracaoPresidente().get(0).getNome()); 
+                        
+                        }else {
+                        	System.out.println("\nNao há Presidente eleito!");
                         }
-
-                        if (urnaEleitoral.ttPresid() > 0) {
-                            System.out.println("\nPresidente eleito: ");
-                            System.out.println(urnaEleitoral.apuracaoPresidente().get(0).getNome());
-
-                        } else {
-                            System.out.println("\nNao há Presidente eleito!");
-                        }
-
+                        
                         System.out.println("===============================");
-
-                        System.out.println("Votos para Governador:");
-                        total = urnaEleitoral.ttGov();
-                        if (total == 0) total = 1;
-
-                        for (Governador i : urnaEleitoral.apuracaoGov()) {
-                            perc = (float) i.getNumeroVotos() / total;
-                            System.out.printf("%s - %s - %d votos (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
-                                    i.getNumeroVotos(), perc * 100);
-                        }
-                        if (urnaEleitoral.ttGov() > 0) {
-                            System.out.println("\nGovernador eleito: ");
-                            System.out.println(urnaEleitoral.apuracaoPresidente().get(0).getNome());
-
-                        } else {
-                            System.out.println("\nNao há Governador eleito!");
-                        }
+                        
+                        //***********************************************************
+                        
+                    	System.out.println("Votos para Governador:");
+                    	total = urnaEleitoral.ttGov();
+                    	if(total == 0) total = 1;
+                    	
+                    	for(Governador i: urnaEleitoral.apuracaoGov()) {
+                    		perc = (float)i.getNumeroVotos()/total;
+                    		System.out.printf("%s - %s - %d votos (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
+                    							i.getNumeroVotos(), perc*100);
+                    	}
+                        if(urnaEleitoral.ttGov() > 0) {
+                        	System.out.println("\nGovernador eleito: ");
+                        	System.out.println(urnaEleitoral.apuracaoPresidente().get(0).getNome()); 
+                        
+                        }else {
+                        	System.out.println("\nNao há Governador eleito!");
+                        } 
                         System.out.println("===============================");
-
-                        total = urnaEleitoral.ttSenad();
-                        if (total == 0) total = 1;
-
+                        
+                        //*************************************************************
+                    	total = urnaEleitoral.ttSenad();
+                    	if(total == 0) total = 1;
+                        
                         System.out.println("\nSenadores eleitos: ");
-                        for (Senador i : urnaEleitoral.apuracaoSenador()) {
-                            perc = (float) i.getNumeroVotos() / total;
-                            System.out.printf("%s - %s - %d voto(s) (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
-                                    i.getNumeroVotos(), perc * 100);
-                        }
-                        System.out.println("===============================");
-                        total = urnaEleitoral.ttDepFed();
-                        if (total == 0) total = 1;
+                    	for(Senador i: urnaEleitoral.apuracaoSenador()) {
+                    		perc = (float)i.getNumeroVotos()/total;
+                    		System.out.printf("%s - %s - %d voto(s) (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
+                    							i.getNumeroVotos(), perc*100);
+                    	}
+                    	System.out.println("===============================");
+                        //*****************************************************
+                    	total = urnaEleitoral.ttDepFed();
+                    	if(total == 0) total = 1;
 
                         System.out.println("\nDeputados Federais eleitos: ");
-                        for (DeputadoFederal i : urnaEleitoral.apuracaoDF()) {
-                            perc = (float) i.getNumeroVotos() / total;
-                            System.out.printf("%s - %s - %d voto(s) (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
-                                    i.getNumeroVotos(), perc * 100);
-                        }
-                        System.out.println("===============================");
-                        total = urnaEleitoral.ttDepEst();
-                        if (total == 0) total = 1;
+                    	for(DeputadoFederal i: urnaEleitoral.apuracaoDF()) {
+                    		perc = (float)i.getNumeroVotos()/total;
+                    		System.out.printf("%s - %s - %d voto(s) (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
+                    							i.getNumeroVotos(), perc*100);
+                    	}
+                    	System.out.println("===============================");
+                        //*********************************************************************************
+                    	total = urnaEleitoral.ttDepEst();
+                    	if(total == 0) total = 1;
 
                         System.out.println("\nDeputados Estaduais eleitos: ");
-                        for (DeputadoEstadual i : urnaEleitoral.apuracaoDE()) {
-                            perc = (float) i.getNumeroVotos() / total;
-                            System.out.printf("%s - %s - %d voto(s) (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
-                                    i.getNumeroVotos(), perc * 100);
-                        }
-                        System.out.println("===============================");
-                        System.out.println("Votos NULOS: " + urnaEleitoral.getVotosNulos());
-                        System.out.println("Votos em BRANCO: " + urnaEleitoral.getVotosEmBranco());
-
+                    	for(DeputadoEstadual i: urnaEleitoral.apuracaoDE()) {
+                    		perc = (float)i.getNumeroVotos()/total;
+                    		System.out.printf("%s - %s - %d voto(s) (%.1f %%)\n", i.getNome(), i.getPartido().getNomePartido(),
+                    							i.getNumeroVotos(), perc*100);
+                    	}
+                    	System.out.println("===============================");
+                        //***********************************************************
+                    	System.out.println("Votos NULOS: "+urnaEleitoral.getVotosNulos());
+                    	System.out.println("Votos em BRANCO: "+urnaEleitoral.getVotosEmBranco());
+                    	
 
                     }
                     case 9 -> {
