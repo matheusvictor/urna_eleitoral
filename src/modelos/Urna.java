@@ -45,29 +45,31 @@ public class Urna {
         return votosTotaisDepEst;
     }
 
-    private static void incPresid() {
+    //*******
+    public static void incPresid() {
         votosTotaisPresidente++;
     }
 
-    private static void incGov() {
+    public static void incGov() {
         votosTotaisGovernador++;
     }
 
-    private static void incSenad() {
+    public static void incSenad() {
         votosTotaisSenador++;
     }
 
-    private static void incDepFed() {
+    public static void incDepFed() {
         votosTotaisDepFed++;
     }
 
-    private static void incDepEst() {
+    public static void incDepEst() {
         votosTotaisPresidente++;
     }
+    //***************************************************
 
     public String getZeresima() {
-        int votosNulosGeral = this.votosNulos[0] + this.votosNulos[1] + this.votosNulos[2] + this.votosNulos[3] + this.votosNulos[4];
-        int votosEmBrancoGeral = this.votosEmBranco[0] + this.votosEmBranco[1] + this.votosEmBranco[2] + this.votosEmBranco[3] + this.votosEmBranco[4];
+        int votosNulosGeral = this.votosNulos[0]+this.votosNulos[1]+this.votosNulos[2]+this.votosNulos[3]+this.votosNulos[4];
+        int votosEmBrancoGeral = this.votosEmBranco[0]+this.votosEmBranco[1]+this.votosEmBranco[2]+this.votosEmBranco[3]+this.votosEmBranco[4];
         return "Votos válidos: " + this.votosValidos + "\n" +
                 "Votos nulos em geral: " + votosNulosGeral + "\n" +
                 "Votos em branco em geral: " + votosEmBrancoGeral + "\n" +
@@ -104,6 +106,7 @@ public class Urna {
         return votosEmBranco;
     }
 
+    //***********************************************************************************
     private void filtrarCandidatosPorCargo() {
         for (Candidato candidato : this.candidatos) {
             if (candidato instanceof Presidente) {
@@ -129,6 +132,7 @@ public class Urna {
         if (candidato == null) {
             throw new CandidatoNaoEncontradoException();
         }
+
         return candidato;
     }
 
@@ -141,11 +145,11 @@ public class Urna {
     }
 
     public void imprimirListaCandidatosASenador() {
-        if (!this.senadores.isEmpty()) {                      //acrescentado por Marcos (null -> is_empty)
+        if (!this.senadores.isEmpty()) {                      //acrescentado por Marcos (null -> is_empty) 
             for (Candidato c : this.senadores) {
-                System.out.println(c.getNome() + " -- " + c.getPartido().getNomePartido());
-                System.out.println("----------------------");
+                System.out.println(c.getDetalhesCandidato() + "\n");
             }
+
         } else
             System.out.println("Nao ha candidatos a Senador a exibir!");  //acrescentado por Marcos (null -> is_empty)
 
@@ -154,9 +158,9 @@ public class Urna {
     public void imprimirListaCandidatosAPresidente() {
         if (!this.presidentes.isEmpty()) {
             for (Presidente p : this.presidentes) {
-                System.out.println(p.getDetalhesCandidato());
-                System.out.println("----------------------");
+                System.out.println(p.getDetalhesCandidato() + "\n");
             }
+
         } else
             System.out.println("Nao ha candidatos a Presidente a exibir!");  //acrescentado por Marcos
     }
@@ -164,9 +168,9 @@ public class Urna {
     public void imprimirListaCandidatosAGovernador() {
         if (!this.governadores.isEmpty()) {
             for (Candidato c : this.governadores) {
-                System.out.println(c.getNome() + " -- " + c.getNumero() + " -- " + c.getPartido().getNomePartido());
-                System.out.println("----------------------");
+                System.out.println(c.getDetalhesCandidato() + "\n");
             }
+
         } else
             System.out.println("Nao ha candidatos a Governador a exibir!"); //acrescentado por marcos
     }
@@ -174,31 +178,37 @@ public class Urna {
     public void imprimirListaCandidatosADepFederal() {
         if (!this.deputadosFederais.isEmpty()) {        //acrescentado por Marcos (null -> is_empty)
             for (Candidato c : this.deputadosFederais) {
-                System.out.println(c.getNome() + " -- " + c.getNumero() + " -- " + c.getPartido().getNomePartido());
-                System.out.println("----------------------");
+                System.out.println(c.getDetalhesCandidato() + "\n");
             }
+
         } else
             System.out.println("Nao ha candidatos a Dep. Federal a exibir!"); //acrescentado por marcos
     }
 
+    //*******************************************************************************************
     public void imprimirListaCandidatosADepEstadual() {
         if (!this.deputadosEstaduais.isEmpty()) {              //acrescentado por Marcos (null -> is_empty)
             for (Candidato c : this.deputadosEstaduais) {
-                System.out.println(c.getNome() + " -- " + c.getNumero() + " -- " + c.getPartido().getNomePartido());
-                System.out.println("----------------------");
+                System.out.println(c.getDetalhesCandidato() + "\n");
             }
 
         } else
             System.out.println("Nao ha candidatos a Dep. Estadual a exibir!"); //acrescentado por marcos
     }
 
+    //**********************************************************************
     public HashSet<Presidente> getPresidentes() {
         return presidentes;
     }
 
+//**********************************************************************************
+
     public void setCandidatos(HashSet<Candidato> candidatos) {
         this.candidatos = candidatos;
     }
+
+    //*************************************************************************
+
 
     public List<Presidente> apuracaoPresidente() {
 
@@ -213,6 +223,7 @@ public class Urna {
 
         return listCandidatos;
     }
+//********************************************************************************
 
     public List<Governador> apuracaoGov() {
 
@@ -227,17 +238,21 @@ public class Urna {
         return listCandidatos;
     }
 
+    //************************************************************
     public List<Senador> apuracaoSenador() {
+
 
         List<Senador> listCandidatos = new ArrayList<Senador>();
         for (Senador i : this.senadores) {
             listCandidatos.add(i);
         }
+        //*****************************************
         Collections.sort(listCandidatos);
 
         return listCandidatos;
     }
 
+    //*********************************************************************
     public List<DeputadoFederal> apuracaoDF() {
 
         List<DeputadoFederal> listCandidatos = new ArrayList<DeputadoFederal>(deputadosFederais);
@@ -257,6 +272,7 @@ public class Urna {
         return listCandidatos;
     }
 
+    //**********************************************************************************
     public List<DeputadoEstadual> apuracaoDE() {
 
         List<DeputadoEstadual> listCandidatos = new ArrayList<DeputadoEstadual>();
@@ -274,5 +290,5 @@ public class Urna {
 
         return listCandidatos;
     }
-
+//*******************************************************************************
 }
