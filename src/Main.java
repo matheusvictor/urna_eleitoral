@@ -19,7 +19,7 @@ public class Main {
             System.out.println("0 - Iniciar eleição");
         }
         if (urnaEleitoral != null) {
-            System.out.println("1 - Imprimir zeréssima");
+            System.out.println("1 - Imprimir zerésima");
             System.out.println("2 - Iniciar votações");
             System.out.println("3 - Ver lista de candidatos a dep. estadual");
             System.out.println("4 - Ver lista de candidatos a dep. federal");
