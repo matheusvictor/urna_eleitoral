@@ -16,60 +16,25 @@ public class Urna {
     private HashSet<Governador> governadores = new HashSet<>();
     private HashSet<DeputadoFederal> deputadosFederais = new HashSet<>();
     private HashSet<DeputadoEstadual> deputadosEstaduais = new HashSet<>();
-    //private int votosNulos = 0;
     private int votosValidos = 0;
-    //private int votosEmBranco = 0;
     private int votosEmBranco[] = new int[5];
     private int votosNulos[] = new int[5];
 
-    private static int votosTotaisPresidente = 0, votosTotaisGovernador = 0,
-            votosTotaisSenador = 0, votosTotaisDepFed = 0, votosTotaisDepEst = 0;
+    private int votosTotaisPresidente = 0;
+    private int votosTotaisGovernador = 0;
+    private int votosTotaisSenador = 0;
+    private int votosTotaisDepFederal = 0;
+    private int votosTotaisDepEstadual = 0;
 
-    public static int ttPresid() {
-        return votosTotaisPresidente;
-    }
 
-    public static int ttGov() {
-        return votosTotaisGovernador;
+    public void habilitarUrnaParaVotacao(GeradorDeCandidatosEPartidosService service) {
+        this.setCandidatos(service.getCandidatos());
+        filtrarCandidatosPorCargo();
     }
-
-    public static int ttSenad() {
-        return votosTotaisSenador;
-    }
-
-    public static int ttDepFed() {
-        return votosTotaisDepFed;
-    }
-
-    public static int ttDepEst() {
-        return votosTotaisDepEst;
-    }
-
-    //*******
-    public static void incPresid() {
-        votosTotaisPresidente++;
-    }
-
-    public static void incGov() {
-        votosTotaisGovernador++;
-    }
-
-    public static void incSenad() {
-        votosTotaisSenador++;
-    }
-
-    public static void incDepFed() {
-        votosTotaisDepFed++;
-    }
-
-    public static void incDepEst() {
-        votosTotaisPresidente++;
-    }
-    //***************************************************
 
     public String getZeresima() {
-        int votosNulosGeral = this.votosNulos[0]+this.votosNulos[1]+this.votosNulos[2]+this.votosNulos[3]+this.votosNulos[4];
-        int votosEmBrancoGeral = this.votosEmBranco[0]+this.votosEmBranco[1]+this.votosEmBranco[2]+this.votosEmBranco[3]+this.votosEmBranco[4];
+        int votosNulosGeral = this.votosNulos[0] + this.votosNulos[1] + this.votosNulos[2] + this.votosNulos[3] + this.votosNulos[4];
+        int votosEmBrancoGeral = this.votosEmBranco[0] + this.votosEmBranco[1] + this.votosEmBranco[2] + this.votosEmBranco[3] + this.votosEmBranco[4];
         return "Votos válidos: " + this.votosValidos + "\n" +
                 "Votos nulos em geral: " + votosNulosGeral + "\n" +
                 "Votos em branco em geral: " + votosEmBrancoGeral + "\n" +
@@ -85,28 +50,14 @@ public class Urna {
                 "Votos em branco para Presidente: " + this.votosEmBranco[4];
     }
 
-    public void habilitarUrnaParaVotacao(GeradorDeCandidatosEPartidosService service) {
-        this.setCandidatos(service.getCandidatos());
-        filtrarCandidatosPorCargo();
-    }
-
     public void incrementarVotosNulos(int i) {
         this.votosNulos[i]++;
-    }
-
-    public int[] getVotosNulos() {
-        return votosNulos;
     }
 
     public void incrementarVotosEmBranco(int i) {
         this.votosEmBranco[i]++;
     }
 
-    public int[] getVotosEmBranco() {
-        return votosEmBranco;
-    }
-
-    //***********************************************************************************
     private void filtrarCandidatosPorCargo() {
         for (Candidato candidato : this.candidatos) {
             if (candidato instanceof Presidente) {
@@ -145,14 +96,13 @@ public class Urna {
     }
 
     public void imprimirListaCandidatosASenador() {
-        if (!this.senadores.isEmpty()) {                      //acrescentado por Marcos (null -> is_empty) 
+        if (!this.senadores.isEmpty()) {
             for (Candidato c : this.senadores) {
                 System.out.println(c.getDetalhesCandidato() + "\n");
             }
 
         } else
-            System.out.println("Nao ha candidatos a Senador a exibir!");  //acrescentado por Marcos (null -> is_empty)
-
+            System.out.println("Nao ha candidatos a Senador a exibir!");
     }
 
     public void imprimirListaCandidatosAPresidente() {
@@ -162,7 +112,7 @@ public class Urna {
             }
 
         } else
-            System.out.println("Nao ha candidatos a Presidente a exibir!");  //acrescentado por Marcos
+            System.out.println("Nao ha candidatos a Presidente a exibir!");
     }
 
     public void imprimirListaCandidatosAGovernador() {
@@ -172,47 +122,41 @@ public class Urna {
             }
 
         } else
-            System.out.println("Nao ha candidatos a Governador a exibir!"); //acrescentado por marcos
+            System.out.println("Nao ha candidatos a Governador a exibir!");
     }
 
     public void imprimirListaCandidatosADepFederal() {
-        if (!this.deputadosFederais.isEmpty()) {        //acrescentado por Marcos (null -> is_empty)
+        if (!this.deputadosFederais.isEmpty()) {
             for (Candidato c : this.deputadosFederais) {
                 System.out.println(c.getDetalhesCandidato() + "\n");
             }
 
         } else
-            System.out.println("Nao ha candidatos a Dep. Federal a exibir!"); //acrescentado por marcos
+            System.out.println("Nao ha candidatos a Dep. Federal a exibir!");
     }
 
-    //*******************************************************************************************
     public void imprimirListaCandidatosADepEstadual() {
-        if (!this.deputadosEstaduais.isEmpty()) {              //acrescentado por Marcos (null -> is_empty)
+        if (!this.deputadosEstaduais.isEmpty()) {
             for (Candidato c : this.deputadosEstaduais) {
                 System.out.println(c.getDetalhesCandidato() + "\n");
             }
 
-        } else
-            System.out.println("Nao ha candidatos a Dep. Estadual a exibir!"); //acrescentado por marcos
+        } else {
+            System.out.println("Não há candidatos a Dep. Estadual a exibir!");
+        }
     }
 
-    //**********************************************************************
     public HashSet<Presidente> getPresidentes() {
         return presidentes;
     }
-
-//**********************************************************************************
 
     public void setCandidatos(HashSet<Candidato> candidatos) {
         this.candidatos = candidatos;
     }
 
-    //*************************************************************************
-
-
     public List<Presidente> apuracaoPresidente() {
 
-        Presidente presidenteEleito = null;
+        Presidente presidenteEleito = null; //FIXME: Essa variável nem é utilizada denro do escopo.
 
         List<Presidente> listCandidatos = new ArrayList<Presidente>();
         for (Presidente i : this.presidentes) {
@@ -223,7 +167,6 @@ public class Urna {
 
         return listCandidatos;
     }
-//********************************************************************************
 
     public List<Governador> apuracaoGov() {
 
@@ -238,7 +181,6 @@ public class Urna {
         return listCandidatos;
     }
 
-    //************************************************************
     public List<Senador> apuracaoSenador() {
 
 
@@ -246,13 +188,11 @@ public class Urna {
         for (Senador i : this.senadores) {
             listCandidatos.add(i);
         }
-        //*****************************************
         Collections.sort(listCandidatos);
 
         return listCandidatos;
     }
 
-    //*********************************************************************
     public List<DeputadoFederal> apuracaoDF() {
 
         List<DeputadoFederal> listCandidatos = new ArrayList<DeputadoFederal>(deputadosFederais);
@@ -272,7 +212,6 @@ public class Urna {
         return listCandidatos;
     }
 
-    //**********************************************************************************
     public List<DeputadoEstadual> apuracaoDE() {
 
         List<DeputadoEstadual> listCandidatos = new ArrayList<DeputadoEstadual>();
@@ -290,5 +229,61 @@ public class Urna {
 
         return listCandidatos;
     }
-//*******************************************************************************
+
+    public int getVotosTotaisPresidente() {
+        return this.votosTotaisPresidente;
+    }
+
+    public int getVotosTotaisGovernador() {
+        return this.votosTotaisGovernador;
+    }
+
+    public int getVotosTotaisSenador() {
+        return this.votosTotaisSenador;
+    }
+
+    public int getVotosTotaisDepFederal() {
+        return this.votosTotaisDepFederal;
+    }
+
+    public int getVotosTotaisDepEstadual() {
+        return this.votosTotaisDepEstadual;
+    }
+
+    public void incrementarVotosTotaisPresidente() {
+        this.votosTotaisPresidente++;
+    }
+
+    public void incrementarVotosTotaisGovernador() {
+        this.votosTotaisGovernador++;
+    }
+
+    public void incrementarVotosTotaisSenador() {
+        this.votosTotaisSenador++;
+    }
+
+    public void incrementarVotosTotaisDepFederal() {
+        this.votosTotaisDepFederal++;
+    }
+
+    public void incrementarVotosTotaisDepEstadual() {
+        this.votosTotaisDepEstadual++;
+    }
+
+    public int getTotalVotosNulos() {
+        int total = 0;
+        for (int votosNulo : this.votosNulos) {
+            total += votosNulo;
+        }
+        return total;
+    }
+
+    public int getTotalVotosEmBranco() {
+        int total = 0;
+        for (int votosEmBranco : this.votosEmBranco) {
+            total += votosEmBranco;
+        }
+        return total;
+    }
+
 }
